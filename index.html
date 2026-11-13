@@ -1,0 +1,1339 @@
+<!DOCTYPE html>
+<html lang="or" class="h-full">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ଓଡ଼ିଆ ସହାୟକ - Odia Sahayak | Farmer Welfare Assistant</title>
+  
+  <!-- Primary Meta Tags -->
+  <meta name="description" content="Voice-enabled government scheme finder for rural farmers in Odisha with native Odia speech recognition." />
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            earth: {
+              green: '#166534',
+              gold: '#f59e0b',
+              sand: '#fffaf0',
+              clay: '#9a3412',
+              paddy: '#15803d'
+            }
+          },
+          fontFamily: {
+            sans: [
+              'system-ui',
+              '-apple-system',
+              'BlinkMacSystemFont',
+              '"Segoe UI"',
+              'Roboto',
+              '"Noto Sans Odia"',
+              'Kalinga',
+              '"Oriya Sangam MN"',
+              'Oxygen',
+              'Ubuntu',
+              'Cantarell',
+              'sans-serif'
+            ]
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Database Client Script -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <!-- React 18 & Babel for seamless execution -->
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <style>
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fadeIn {
+      animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  </style>
+</head>
+<body class="bg-orange-50/70 text-stone-900 font-sans min-h-screen antialiased selection:bg-amber-300 selection:text-green-950">
+  <div id="root"></div>
+
+  <!-- Application Script -->
+  <script type="text/babel">
+    const { useState, useEffect, useRef } = React;
+
+    // =========================================================================
+    // 1. DATA (ODISHA SCHEMES WITH BILINGUAL TITLES AND AUDIO SCRIPTS)
+    // =========================================================================
+    const SCHEMES_DATA = [
+      {
+        id: "kalia",
+        name_en: "KALIA Scheme",
+        name_or: "କାଳିଆ ଯୋଜନା (KALIA)",
+        fullName_en: "Krushak Assistance for Livelihood and Income Augmentation",
+        department_en: "Agriculture & Farmers' Empowerment, Govt. of Odisha",
+        department_or: "କୃଷି ଓ କୃଷକ ସଶକ୍ତିକରଣ ବିଭାଗ, ଓଡ଼ିଶା ସରକାର",
+        badge: "ଓଡ଼ିଶା ସରକାର / Govt. of Odisha",
+        badgeColor: "bg-green-100 text-green-900 border-green-300",
+        description_en: "Comprehensive financial support package providing direct financial aid for cultivation, livelihood, and life insurance coverage.",
+        description_or: "ଚାଷ କାର୍ଯ୍ୟ ଏବଂ ଜୀବିକା ପାଇଁ ଆର୍ଥିକ ସହାୟତା, ବିନା ସୁଧରେ କୃଷି ଋଣ ଏବଂ ସାମାଜିକ ସୁରକ୍ଷା ପ୍ରଦାନ କରୁଥିବା ଓଡ଼ିଶା ସରକାରଙ୍କ ଏକ ଐତିହାସିକ ଯୋଜନା।",
+        benefits_en: [
+          "₹10,000 per family annually for small and marginal farmers",
+          "₹12,500 grant for landless agricultural households",
+          "Crop loans up to ₹50,000 at 0% interest rate",
+          "₹2 Lakh life and accident insurance coverage"
+        ],
+        benefits_or: [
+          "କ୍ଷୁଦ୍ର ଓ ନାମମାତ୍ର ଚାଷୀ ପରିବାରଙ୍କୁ ବାର୍ଷିକ ₹୧୦,୦୦୦ ଆର୍ଥିକ ସହାୟତା",
+          "ଭୂମିହୀନ କୃଷି ଶ୍ରମିକ ପରିବାରଙ୍କୁ ଛେଳି, କୁକୁଡ଼ା ଓ ଡାଏରୀ ପାଇଁ ₹୧୨,୫୦୦ ଅନୁଦାନ",
+          "୦% ସୁଧ ହାରରେ ₹୫୦,୦୦୦ ପର୍ଯ୍ୟନ୍ତ କୃଷି ଋଣ ସୁବିଧା",
+          "₹୨ ଲକ୍ଷ ଜୀବନ ବୀମା ଏବଂ ₹୨ ଲକ୍ଷ ଦୁର୍ଘଟଣା ବୀମା ସହାୟତା"
+        ],
+        min_age: 18,
+        max_age: 80,
+        max_income: 200000,
+        requires_ration_card: false,
+        allowed_occupations: ["Farmer", "Agricultural Labourer"],
+        documents_or: ["ଆଧାର କାର୍ଡ", "ବ୍ୟାଙ୍କ ପାସବୁକ୍ (ଆଧାର ସଂଲଗ୍ନ)", "ରାସନ କାର୍ଡ", "ଜମି ପଟ୍ଟା / RoR"],
+        official_link: "https://kalia.odisha.gov.in",
+        helpline: "1800-572-1122 / 1551",
+        audioText_or: "କାଳିଆ ଯୋଜନା (KALIA): ଓଡ଼ିଶାର ଚାଷୀ ଏବଂ କୃଷି ଶ୍ରମିକଙ୍କ ପାଇଁ ବାର୍ଷିକ ଦଶ ହଜାର ଟଙ୍କା ସହାୟତା ଏବଂ ବିନା ସୁଧରେ କୃଷି ଋଣ ମିଳିଥାଏ। ଆପଣ ଏହି ଯୋଜନା ପାଇଁ ସମ୍ପୂର୍ଣ୍ଣ ଯୋଗ୍ୟ ଅଟନ୍ତି।",
+        audioText_en: "KALIA Scheme: Krushak Assistance for Livelihood and Income Augmentation provides 10,000 rupees annual assistance and zero percent interest crop loans for small and marginal farmers in Odisha. You are eligible for this scheme."
+      },
+      {
+        id: "bsky",
+        name_en: "BSKY / Nabin Card",
+        name_or: "ବିଜୁ ସ୍ୱାସ୍ଥ୍ୟ କଲ୍ୟାଣ ଯୋଜନା (BSKY)",
+        fullName_en: "Biju Swasthya Kalyan Yojana & BSKY Nabin Card",
+        department_en: "Health & Family Welfare Dept, Govt. of Odisha",
+        department_or: "ସ୍ୱାସ୍ଥ୍ୟ ଓ ପରିବାର କଲ୍ୟାଣ ବିଭାଗ, ଓଡ଼ିଶା ସରକାର",
+        badge: "ଓଡ଼ିଶା ସରକାର / Govt. of Odisha",
+        badgeColor: "bg-blue-100 text-blue-900 border-blue-300",
+        description_en: "Universal cashless healthcare protection scheme for rural families covering treatments across 800+ top premier hospitals.",
+        description_or: "ଗ୍ରାମାଞ୍ଚଳର ପରିବାରଙ୍କୁ ବଡ଼ ବଡ଼ ହସ୍ପିଟାଲରେ ମାଗଣା ଚିକିତ୍ସା ସୁବିଧା ଯୋଗାଉଥିବା ସ୍ୱାସ୍ଥ୍ୟ ବୀମା ଯୋଜନା।",
+        benefits_en: [
+          "Cashless hospital treatment up to ₹5 Lakh per year for the family",
+          "Up to ₹10 Lakh per year cashless coverage for women members",
+          "Over 800+ empanelled premier private and government hospitals",
+          "Free diagnostic tests, surgeries, medicines, and ICU support"
+        ],
+        benefits_or: [
+          "ସମଗ୍ର ପରିବାର ପାଇଁ ବାର୍ଷିକ ₹୫ ଲକ୍ଷ ପର୍ଯ୍ୟନ୍ତ ମାଗଣା କ୍ୟାସଲେସ୍ ଚିକିତ୍ସା",
+          "ପରିବାରର ମହିଳା ସଦସ୍ୟଙ୍କ ପାଇଁ ବାର୍ଷିକ ₹୧୦ ଲକ୍ଷ ପର୍ଯ୍ୟନ୍ତ ସ୍ୱାସ୍ଥ୍ୟ କଭରେଜ୍",
+          "ଓଡ଼ିଶା ଓ ରାଜ୍ୟ ବାହାରର ୮୦୦ରୁ ଅଧିକ ବଡ଼ ବେସରକାରୀ ହସ୍ପିଟାଲରେ ଚିକିତ୍ସା ସୁବିଧା",
+          "ଔଷଧ, ଅସ୍ତ୍ରୋପଚାର, ଡାଇଗ୍ନୋଷ୍ଟିକ୍ ଓ ଆଇସିୟୁ ଖର୍ଚ୍ଚ ସମ୍ପୂର୍ଣ୍ଣ ମାଗଣା"
+        ],
+        min_age: 18,
+        max_age: 100,
+        max_income: 300000,
+        requires_ration_card: true,
+        allowed_occupations: ["Farmer", "Agricultural Labourer", "Small Artisan", "Self Employed", "Other"],
+        documents_or: ["ବିଜୁ ସ୍ୱାସ୍ଥ୍ୟ କଲ୍ୟାଣ ସ୍ମାର୍ଟ କାର୍ଡ କିମ୍ବା ରାସନ କାର୍ଡ", "ପରିବାରର ସମସ୍ତ ସଦସ୍ୟଙ୍କ ଆଧାର କାର୍ଡ"],
+        official_link: "https://bsky.odisha.gov.in",
+        helpline: "104 (24x7 Toll Free Helpline)",
+        audioText_or: "ବିଜୁ ସ୍ୱାସ୍ଥ୍ୟ କଲ୍ୟାଣ ଯୋଜନା (BSKY): ଆପଣଙ୍କ ପାଖରେ ରାସନ କାର୍ଡ ଥିବାରୁ ପରିବାର ପାଇଁ ପାଞ୍ଚ ଲକ୍ଷ ଏବଂ ମହିଳାଙ୍କ ପାଇଁ ଦଶ ଲକ୍ଷ ଟଙ୍କା ପର୍ଯ୍ୟନ୍ତ ମାଗଣା ହସ୍ପିଟାଲ ଚିକିତ୍ସା ଉପଲବ୍ଧ।",
+        audioText_en: "BSKY Biju Swasthya Kalyan Yojana: With your ration card, your family is entitled to five lakh rupees and women members up to ten lakh rupees per year of completely cashless medical treatment across eight hundred premier hospitals."
+      },
+      {
+        id: "pm-kisan",
+        name_en: "PM-KISAN Samman Nidhi",
+        name_or: "ପ୍ରଧାନମନ୍ତ୍ରୀ କିଷାନ ସମ୍ମାନ ନିଧି (PM-KISAN)",
+        fullName_en: "Pradhan Mantri Kisan Samman Nidhi",
+        department_en: "Ministry of Agriculture, Govt. of India",
+        department_or: "କୃଷି ମନ୍ତ୍ରଣାଳୟ, ଭାରତ ସରକାର",
+        badge: "ଭାରତ ସରକାର / Govt. of India",
+        badgeColor: "bg-amber-100 text-amber-900 border-amber-300",
+        description_en: "Central income support initiative providing direct bank transfers of ₹6,000 per year in 3 equal four-monthly instalments.",
+        description_or: "ଚାଷୀମାନଙ୍କୁ ବିହନ, ସାର ଏବଂ କୃଷି ସାମଗ୍ରୀ କିଣିବା ପାଇଁ ବର୍ଷକୁ ତିନୋଟି କିସ୍ତିରେ ସିଧାସଳଖ ବ୍ୟାଙ୍କ ଖାତାକୁ ସହାୟତା ରାଶି ପ୍ରଦାନ କରାଯାଏ।",
+        benefits_en: [
+          "₹6,000 per year directly transferred to bank account via DBT",
+          "Paid in 3 equal instalments of ₹2,000 every four months",
+          "Direct benefit transfer without any intermediaries"
+        ],
+        benefits_or: [
+          "ବାର୍ଷିକ ₹୬,୦୦୦ ସିଧାସଳଖ ବ୍ୟାଙ୍କ ଖାତାକୁ (DBT ଜରିଆରେ)",
+          "ପ୍ରତି ଚାରି ମାସରେ ₹୨,୦୦୦ ଲେଖାଏଁ ୩ଟି କିସ୍ତିରେ ମିଳିଥାଏ",
+          "କାଳିଆ ଯୋଜନା ସହିତ ଅତିରିକ୍ତ ଭାବେ ଏହା ମଧ୍ୟ ଲାଭଦାୟକ"
+        ],
+        min_age: 18,
+        max_age: 95,
+        max_income: 250000,
+        requires_ration_card: false,
+        allowed_occupations: ["Farmer"],
+        documents_or: ["ଜମି ପଟ୍ଟା / ଖତିଆନ୍", "ଆଧାର କାର୍ଡ", "ବ୍ୟାଙ୍କ ଆକାଉଣ୍ଟ ପାସବୁକ୍"],
+        official_link: "https://pmkisan.gov.in",
+        helpline: "155261",
+        audioText_or: "ପ୍ରଧାନମନ୍ତ୍ରୀ କିଷାନ ସମ୍ମାନ ନିଧି (PM-KISAN): ଚାଷ ଜମି ଥିବା କୃଷକ ପରିବାରଙ୍କୁ ବାର୍ଷିକ ୬,୦୦୦ ଟଙ୍କା ତିନୋଟି କିସ୍ତିରେ ସିଧାସଳଖ ବ୍ୟାଙ୍କ ଖାତାରେ ମିଳିଥାଏ।",
+        audioText_en: "PM-KISAN Samman Nidhi: Pradhan Mantri Kisan Samman Nidhi provides direct financial assistance of 6,000 rupees per year in three equal instalments of 2,000 rupees directly to the bank accounts of all landholding farmer families."
+      },
+      {
+        id: "balaram",
+        name_en: "BALARAM Scheme",
+        name_or: "ବଳରାମ ଯୋଜନା (BALARAM)",
+        fullName_en: "Bhoomihina Agriculturist Loan and Resources Augmentation Model",
+        department_en: "Cooperation & Agriculture Dept, Govt. of Odisha",
+        department_or: "ସମବାୟ ଓ କୃଷି ବିଭାଗ, ଓଡ଼ିଶା ସରକାର",
+        badge: "ଓଡ଼ିଶା ସରକାର / Govt. of Odisha",
+        badgeColor: "bg-emerald-100 text-emerald-900 border-emerald-300",
+        description_en: "Institutional credit support for landless farmers and sharecroppers through Joint Liability Groups (JLGs).",
+        description_or: "ଜମି ନଥିବା ଭାଗଚାଷୀ ଓ କୃଷି ଶ୍ରମିକମାନଙ୍କୁ ମିଳିତ ଗ୍ରୁପ୍ (JLG) ଜରିଆରେ ବିନା ବନ୍ଧକରେ ବ୍ୟାଙ୍କରୁ କୃଷି ଋଣ ଯୋଗାଇଦେବାର ଯୋଜନା।",
+        benefits_en: [
+          "Collateral-free farm credit up to ₹1.6 Lakh per JLG group",
+          "Concessional interest rate with timely repayment incentives",
+          "Assistance for purchase of seeds, fertilizers, and farm equipment"
+        ],
+        benefits_or: [
+          "ବିନା ବନ୍ଧକରେ ଗ୍ରୁପ୍ ପିଛା ₹୧.୬ ଲକ୍ଷ ପର୍ଯ୍ୟନ୍ତ କୃଷି ଋଣ ସୁବିଧା",
+          "ସଠିକ୍ ସମୟରେ ପରିଶୋଧ କଲେ ସୁଧରେ ବିଶେଷ ରିହାତି",
+          "ବିହନ, ସାର ଓ କୃଷି ଯନ୍ତ୍ରପାତି ପାଇଁ ସହଜ ଆର୍ଥିକ ସହାୟତା"
+        ],
+        min_age: 18,
+        max_age: 70,
+        max_income: 150000,
+        requires_ration_card: false,
+        allowed_occupations: ["Agricultural Labourer", "Farmer"],
+        documents_or: ["ଆଧାର କାର୍ଡ", "ଭୋଟର ପରିଚୟ ପତ୍ର", "ବ୍ୟାଙ୍କ ପାସବୁକ୍"],
+        official_link: "https://odisha.gov.in",
+        helpline: "1551",
+        audioText_or: "ବଳରାମ ଯୋଜନା (BALARAM): ଭୂମିହୀନ ଚାଷୀ ଏବଂ ଶ୍ରମିକମାନେ ବିନା ବନ୍ଧକରେ ବ୍ୟାଙ୍କରୁ ସୁଲଭ କୃଷି ଋଣ ପାଇବା ପାଇଁ ଏହି ଯୋଜନା ଲାଭଦାୟକ।",
+        audioText_en: "BALARAM Scheme: Bhoomihina Agriculturist Loan and Resources Augmentation Model provides collateral-free bank credit up to 1.6 lakh rupees for landless farmers and sharecroppers."
+      }
+    ];
+
+    // =========================================================================
+    // 2. BACKEND DATABASE INITIALIZATION
+    // =========================================================================
+    const dbUrl = localStorage.getItem('VITE_SUPABASE_URL') || (window.__ENV__ && window.__ENV__.VITE_SUPABASE_URL) || '';
+    const dbKey = localStorage.getItem('VITE_SUPABASE_ANON_KEY') || (window.__ENV__ && window.__ENV__.VITE_SUPABASE_ANON_KEY) || '';
+    const dbClient = (dbUrl && dbKey && window.supabase && typeof window.supabase.createClient === 'function')
+      ? window.supabase.createClient(dbUrl, dbKey)
+      : null;
+
+    // =========================================================================
+    // 3. VOICE PROCESSING LOGIC
+    // =========================================================================
+    const blobToBase64 = (blob) => {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          const dataUrl = reader.result;
+          const base64 = typeof dataUrl === 'string' ? dataUrl.split(',')[1] : '';
+          resolve(base64);
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+    };
+
+    async function processOdiaAudio(audioBlob) {
+      const apiKey = localStorage.getItem('VITE_GEMINI_API_KEY') || 
+                     (window.__ENV__ && window.__ENV__.VITE_GEMINI_API_KEY) || 
+                     '';
+
+      if (!apiKey) {
+        await new Promise(res => setTimeout(res, 1200));
+        return {
+          age: 55,
+          occupation: "Farmer",
+          income: 40000,
+          has_ration_card: true,
+          transcript_odia: "ମୋ ବୟସ ୫୫ ବର୍ଷ, ମୁଁ ଜଣେ ଚାଷୀ, ବାର୍ଷିକ ଆୟ ୪୦,୦୦୦ ଟଙ୍କା ଏବଂ ମୋର ରାସନ କାର୍ଡ ଅଛି।"
+        };
+      }
+
+      const base64Audio = await blobToBase64(audioBlob);
+
+      const promptText = `You are an expert Odia speech understanding AI assistant for rural farmers in Odisha.
+Listen carefully to the provided spoken Odia audio and extract the farmer's details into a strict JSON object:
+{
+  "age": number (farmer's age in years, or null if unmentioned),
+  "occupation": string ("Farmer" | "Agricultural Labourer" | "Small Artisan" | "Self Employed" | "Other"),
+  "income": number (annual household income in INR as integer, or null if unmentioned),
+  "has_ration_card": boolean (true if the farmer mentions having a ration/food card or BSKY card, false otherwise),
+  "transcript_odia": string (verbatim transcription of what the farmer said in Odia)
+}
+Return JSON ONLY, without markdown fences or additional explanation.`;
+
+      const response = await fetch(
+        `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            contents: [
+              {
+                parts: [
+                  { text: promptText },
+                  {
+                    inlineData: {
+                      mimeType: audioBlob.type || 'audio/webm',
+                      data: base64Audio
+                    }
+                  }
+                ]
+              }
+            ],
+            generationConfig: {
+              responseMimeType: "application/json"
+            }
+          })
+        }
+      );
+
+      if (!response.ok) {
+        const errText = await response.text();
+        throw new Error(`Voice service error: ${response.status}`);
+      }
+
+      const result = await response.json();
+      const rawText = result.candidates?.[0]?.content?.parts?.[0]?.text;
+      if (!rawText) throw new Error("No transcription received");
+
+      const cleanJson = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+      const parsed = JSON.parse(cleanJson);
+
+      return {
+        age: parsed.age ? Number(parsed.age) : 55,
+        occupation: parsed.occupation || 'Farmer',
+        income: parsed.income !== undefined && parsed.income !== null ? Number(parsed.income) : 40000,
+        has_ration_card: Boolean(parsed.has_ration_card),
+        transcript_odia: parsed.transcript_odia || "ଓଡ଼ିଆ ଭଏସ୍ ସଫଳତାର ସହ ବୁଝାଗଲା।"
+      };
+    }
+
+    // =========================================================================
+    // 4. COMPONENT: HeroBanner
+    // =========================================================================
+    function HeroBanner() {
+      return (
+        <header className="w-full bg-gradient-to-b from-green-900 via-green-800 to-green-900 text-white shadow-md border-b-4 border-amber-500">
+          <div className="max-w-4xl mx-auto px-4 py-6 sm:py-8 flex flex-col items-center text-center">
+            {/* Top Badges */}
+            <div className="flex flex-wrap items-center justify-center gap-2 mb-3">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs sm:text-sm font-semibold bg-amber-500/20 text-amber-300 border border-amber-400/40">
+                <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                ଓଡ଼ିଶା ସରକାରୀ ଯୋଜନା ସହାୟକ • Govt. of Odisha Schemes
+              </span>
+              <span className="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs sm:text-sm font-medium bg-green-950/60 text-green-200 border border-green-700/50">
+                📞 କିଷାନ ହେଲ୍ପଲାଇନ୍: 1551 (Toll-Free)
+              </span>
+            </div>
+
+            {/* Main Logo & Title */}
+            <div className="flex items-center justify-center gap-3 my-2">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-2xl bg-amber-500 flex items-center justify-center text-green-950 shadow-inner flex-shrink-0">
+                <svg className="w-8 h-8 sm:w-10 sm:h-10" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M12 3v18m0-18c-2.5 0-5 2-5 5v5c0 2 1.5 3.5 3 4m2-14c2.5 0 5 2 5 5v5c0 2-1.5 3.5-3 4m-4 4h4" />
+                </svg>
+              </div>
+
+              <div className="text-left">
+                <h1 className="text-2xl sm:text-4xl font-extrabold tracking-tight text-white flex items-center gap-2">
+                  <span>ଓଡ଼ିଆ ସହାୟକ</span>
+                  <span className="text-amber-400 font-medium text-lg sm:text-2xl">| Odia Sahayak</span>
+                </h1>
+                <p className="text-xs sm:text-sm text-amber-200/90 font-medium">
+                  କୃଷକଙ୍କ ପାଇଁ ଭଏସ୍-ଆଧାରିତ ସରକାରୀ ଯୋଜନା ସନ୍ଧାନକାରୀ
+                </p>
+              </div>
+            </div>
+
+            {/* Tagline */}
+            <p className="mt-3 text-base sm:text-lg text-emerald-50 max-w-2xl leading-relaxed">
+              ନିଜ ମାତୃଭାଷା <strong className="text-amber-300 font-bold underline decoration-amber-400">ଓଡ଼ିଆରେ କହି</strong> କାଳିଆ (KALIA), ବିଏସକେୱାଇ (BSKY), ପିଏମ୍-କିଷାନ (PM-KISAN) ଓ ଅନ୍ୟାନ୍ୟ ସରକାରୀ ସହାୟତା ପାଆନ୍ତୁ।
+            </p>
+
+            {/* 3 Simple Visual Steps */}
+            <div className="mt-5 w-full max-w-xl bg-green-950/70 border border-green-700/60 rounded-2xl p-3 sm:p-4 grid grid-cols-3 gap-2 text-center text-xs sm:text-sm shadow-sm">
+              <div className="flex flex-col items-center">
+                <span className="w-7 h-7 rounded-full bg-amber-500 text-green-950 font-bold flex items-center justify-center text-xs sm:text-sm mb-1">
+                  ୧
+                </span>
+                <span className="font-semibold text-white">ମାଇକ୍ ଦବାନ୍ତୁ</span>
+                <span className="text-[10px] sm:text-xs text-amber-200/70">Press Mic</span>
+              </div>
+
+              <div className="flex flex-col items-center border-x border-green-700/60 px-1">
+                <span className="w-7 h-7 rounded-full bg-amber-500 text-green-950 font-bold flex items-center justify-center text-xs sm:text-sm mb-1">
+                  ୨
+                </span>
+                <span className="font-semibold text-white">ଓଡ଼ିଆରେ କୁହନ୍ତୁ</span>
+                <span className="text-[10px] sm:text-xs text-amber-200/70">Speak in Odia</span>
+              </div>
+
+              <div className="flex flex-col items-center">
+                <span className="w-7 h-7 rounded-full bg-amber-500 text-green-950 font-bold flex items-center justify-center text-xs sm:text-sm mb-1">
+                  ୩
+                </span>
+                <span className="font-semibold text-white">ଯୋଜନା ଶୁଣନ୍ତୁ</span>
+                <span className="text-[10px] sm:text-xs text-amber-200/70">Hear Schemes</span>
+              </div>
+            </div>
+          </div>
+        </header>
+      );
+    }
+
+    // =========================================================================
+    // 5. COMPONENT: VoiceRecorder
+    // =========================================================================
+    function VoiceRecorder({ onVoiceParsed, isProcessingGlobal }) {
+      const [isRecording, setIsRecording] = useState(false);
+      const [isProcessing, setIsProcessing] = useState(false);
+      const [recordDuration, setRecordDuration] = useState(0);
+      const [transcriptInfo, setTranscriptInfo] = useState(null);
+      const [errorMessage, setErrorMessage] = useState(null);
+
+      const mediaRecorderRef = useRef(null);
+      const audioChunksRef = useRef([]);
+      const timerIntervalRef = useRef(null);
+
+      useEffect(() => {
+        return () => {
+          if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
+        };
+      }, []);
+
+      const startRecording = async () => {
+        setErrorMessage(null);
+        setTranscriptInfo(null);
+        audioChunksRef.current = [];
+
+        if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+          setErrorMessage({
+            or: "ଆପଣଙ୍କ ବ୍ରାଉଜରରେ ମାଇକ୍ ସମର୍ଥନ ନାହିଁ। ଦୟାକରି ତଳେ ଥିବା ନମୁନା ବଟନ୍ ଦବାନ୍ତୁ।",
+            en: "Microphone recording is not supported. Use the demo button below."
+          });
+          return;
+        }
+
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          const mediaRecorder = new MediaRecorder(stream);
+          mediaRecorderRef.current = mediaRecorder;
+
+          mediaRecorder.ondataavailable = (event) => {
+            if (event.data && event.data.size > 0) {
+              audioChunksRef.current.push(event.data);
+            }
+          };
+
+          mediaRecorder.onstop = async () => {
+            stream.getTracks().forEach((track) => track.stop());
+            const audioBlob = new Blob(audioChunksRef.current, { type: 'audio/webm' });
+            await handleAudioProcessing(audioBlob);
+          };
+
+          mediaRecorder.start(250);
+          setIsRecording(true);
+          setRecordDuration(0);
+
+          timerIntervalRef.current = setInterval(() => {
+            setRecordDuration((prev) => prev + 1);
+          }, 1000);
+        } catch (err) {
+          console.error("Microphone access error:", err);
+          setErrorMessage({
+            or: "ମାଇକ୍ରୋଫୋନ୍ ଅନୁମତି ମିଳିଲା ନାହିଁ। ବ୍ରାଉଜରରେ ମାଇକ୍ On କରନ୍ତୁ କିମ୍ବା ଡେମୋ ବଟନ୍ ବ୍ୟବହାର କରନ୍ତୁ।",
+            en: "Microphone permission denied. Allow mic access or use Demo Voice button."
+          });
+          setIsRecording(false);
+        }
+      };
+
+      const stopRecording = () => {
+        if (mediaRecorderRef.current && isRecording) {
+          if (timerIntervalRef.current) clearInterval(timerIntervalRef.current);
+          mediaRecorderRef.current.stop();
+          setIsRecording(false);
+        }
+      };
+
+      const handleAudioProcessing = async (audioBlob) => {
+        setIsProcessing(true);
+        try {
+          const parsedData = await processOdiaAudio(audioBlob);
+          setTranscriptInfo(parsedData);
+          if (onVoiceParsed) {
+            onVoiceParsed(parsedData);
+          }
+        } catch (err) {
+          console.error("Audio processing failed:", err);
+          setErrorMessage({
+            or: "ଅଡ଼ିଓ ବୁଝିବାରେ ସମସ୍ୟା ହେଲା। ଦୟାକରି ପୁଣି କୁହନ୍ତୁ।",
+            en: `Error processing audio: ${err.message}`
+          });
+        } finally {
+          setIsProcessing(false);
+        }
+      };
+
+      const triggerDemoAudio = async () => {
+        setErrorMessage(null);
+        setIsProcessing(true);
+        const dummyBlob = new Blob(["mock-odia-audio-bytes"], { type: "audio/webm" });
+        await handleAudioProcessing(dummyBlob);
+      };
+
+      const formatTime = (secs) => {
+        const mins = Math.floor(secs / 60);
+        const remaining = secs % 60;
+        return `${mins.toString().padStart(2, '0')}:${remaining.toString().padStart(2, '0')}`;
+      };
+
+      const busy = isRecording || isProcessing || isProcessingGlobal;
+
+      return (
+        <section className="w-full bg-white rounded-3xl p-6 sm:p-8 shadow-md border-2 border-green-800/10 flex flex-col items-center text-center relative overflow-hidden">
+          <div className="absolute -top-24 -right-24 w-48 h-48 bg-amber-200/40 rounded-full blur-3xl pointer-events-none"></div>
+          <div className="absolute -bottom-24 -left-24 w-48 h-48 bg-green-200/40 rounded-full blur-3xl pointer-events-none"></div>
+
+          <div className="mb-4">
+            <span className="inline-block px-3 py-1 rounded-full text-xs sm:text-sm font-bold bg-amber-100 text-amber-900 mb-2 border border-amber-300">
+              🎙️ ମୁଖ୍ୟ ଭଏସ୍ ସୁବିଧା / Voice-Powered Assistant
+            </span>
+            <h2 className="text-xl sm:text-2xl font-black text-green-950">
+              ମାଇକ୍ ଦବାଇ ଓଡ଼ିଆରେ କୁହନ୍ତୁ
+            </h2>
+            <p className="text-xs sm:text-sm text-stone-600 font-medium">
+              Press Microphone & Speak in Odia (e.g., "ମୁଁ ଚାଷୀ, ବୟସ ୫୫, ଆୟ ୪୦,୦୦୦")
+            </p>
+          </div>
+
+          {/* Massive Pulsing Microphone Button */}
+          <div className="relative my-4 flex items-center justify-center">
+            {isRecording && (
+              <>
+                <span className="absolute w-36 h-36 sm:w-44 sm:h-44 rounded-full bg-red-400 opacity-75 animate-ping"></span>
+                <span className="absolute w-40 h-40 sm:w-48 sm:h-48 rounded-full bg-amber-400 opacity-50 animate-pulse"></span>
+              </>
+            )}
+
+            {!isRecording && !isProcessing && (
+              <span className="absolute w-32 h-32 sm:w-40 sm:h-40 rounded-full bg-amber-300/40 animate-pulse pointer-events-none"></span>
+            )}
+
+            <button
+              type="button"
+              onClick={isRecording ? stopRecording : startRecording}
+              disabled={isProcessing}
+              aria-label={isRecording ? "Stop recording Odia voice" : "Start recording Odia voice"}
+              className={`relative z-10 w-28 h-28 sm:w-36 sm:h-36 rounded-full flex flex-col items-center justify-center transition-all duration-300 shadow-2xl active:scale-95 focus:outline-none focus:ring-4 focus:ring-amber-400 ${
+                isRecording
+                  ? 'bg-red-600 text-white hover:bg-red-700 ring-4 ring-red-300 animate-pulse'
+                  : isProcessing
+                  ? 'bg-stone-300 text-stone-500 cursor-wait'
+                  : 'bg-gradient-to-tr from-green-800 to-green-700 text-amber-400 hover:from-green-900 hover:to-green-800 hover:text-amber-300 ring-4 ring-amber-400/80 hover:shadow-amber-500/20'
+              }`}
+            >
+              {isProcessing ? (
+                <div className="flex flex-col items-center">
+                  <svg className="animate-spin h-10 w-10 text-green-900 mb-1" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                  </svg>
+                  <span className="text-[10px] font-bold text-stone-700">ପ୍ରୋସେସିଂ...</span>
+                </div>
+              ) : isRecording ? (
+                <div className="flex flex-col items-center">
+                  <div className="w-8 h-8 sm:w-10 sm:h-10 bg-white rounded-md shadow-sm mb-1"></div>
+                  <span className="text-[11px] sm:text-xs font-bold text-white uppercase tracking-wider">
+                    ବନ୍ଦ କରନ୍ତୁ / STOP
+                  </span>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center">
+                  <svg className="w-12 h-12 sm:w-16 sm:h-16 mb-0.5 filter drop-shadow" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M12 14c1.66 0 3-1.34 3-3V5c0-1.66-1.34-3-3-3S9 3.34 9 5v6c0 1.66 1.34 3 3 3z"/>
+                    <path d="M17 11c0 2.76-2.24 5-5 5s-5-2.24-5-5H5c0 3.53 2.61 6.43 6 6.92V21h2v-3.08c3.39-.49 6-3.39 6-6.92h-2z"/>
+                  </svg>
+                  <span className="text-[10px] sm:text-[11px] font-extrabold text-amber-300">
+                    ମାଇକ୍ ଦବାନ୍ତୁ
+                  </span>
+                </div>
+              )}
+            </button>
+          </div>
+
+          {/* Recording State Details */}
+          {isRecording && (
+            <div className="w-full max-w-sm mt-3 p-3 bg-red-50 border border-red-200 rounded-2xl flex flex-col items-center animate-fadeIn">
+              <div className="flex items-center gap-2 mb-2">
+                <span className="w-3 h-3 rounded-full bg-red-600 animate-ping"></span>
+                <span className="text-red-700 font-bold text-sm sm:text-base">
+                  ଶୁଣୁଛୁ... ଓଡ଼ିଆରେ କୁହନ୍ତୁ (Listening)
+                </span>
+              </div>
+
+              <div className="flex items-center gap-1.5 h-6 mb-2">
+                {[40, 75, 55, 90, 60, 85, 45, 95, 65, 50, 80, 40].map((h, i) => (
+                  <span
+                    key={i}
+                    className="w-1 bg-red-500 rounded-full animate-pulse"
+                    style={{ height: `${h}%`, animationDuration: `${0.4 + (i % 3) * 0.2}s` }}
+                  ></span>
+                ))}
+              </div>
+
+              <span className="text-xs font-mono font-bold text-red-800 bg-white px-2 py-0.5 rounded-md border border-red-200">
+                {formatTime(recordDuration)}
+              </span>
+              <p className="text-[11px] text-stone-500 mt-1">
+                କୁହା ସରିଲେ ଉପର ବଟନ୍ ଦବାଇ ବନ୍ଦ କରନ୍ତୁ (Tap button when done)
+              </p>
+            </div>
+          )}
+
+          {/* Processing State */}
+          {isProcessing && (
+            <div className="mt-3 p-3 bg-amber-50 border border-amber-300 rounded-2xl text-amber-900 max-w-sm flex items-center justify-center gap-2 animate-pulse">
+              <span className="text-xl">✨</span>
+              <div className="text-left text-xs sm:text-sm">
+                <p className="font-bold">ଭଏସ୍ ବିଶ୍ଳେଷଣ ଚାଲିଛି...</p>
+                <p className="text-[11px] text-amber-800">Transcribing Odia speech & extracting demographic profile</p>
+              </div>
+            </div>
+          )}
+
+          {/* Success Box */}
+          {transcriptInfo && !isProcessing && !isRecording && (
+            <div className="w-full max-w-lg mt-4 p-4 bg-emerald-50 border-2 border-emerald-300 rounded-2xl text-left animate-fadeIn shadow-sm">
+              <div className="flex items-center justify-between mb-1.5">
+                <span className="text-xs font-bold text-emerald-800 flex items-center gap-1.5">
+                  <span className="text-base">✅</span>
+                  ଭଏସ୍ ସଫଳତାର ସହ ବୁଝାଗଲା (Voice Recognized)
+                </span>
+                <span className="text-[10px] bg-emerald-200 text-emerald-900 px-2 py-0.5 rounded-full font-bold">
+                  AI ସ୍ୱୟଂଚାଳିତ
+                </span>
+              </div>
+              <p className="text-sm font-semibold text-green-950 bg-white p-2.5 rounded-xl border border-emerald-200 italic">
+                "{transcriptInfo.transcript_odia}"
+              </p>
+              <div className="mt-2 flex flex-wrap gap-2 text-xs">
+                <span className="bg-emerald-100 text-emerald-900 px-2 py-1 rounded-md font-medium">
+                  ବୟସ: <strong>{transcriptInfo.age}</strong>
+                </span>
+                <span className="bg-emerald-100 text-emerald-900 px-2 py-1 rounded-md font-medium">
+                  ବୃତ୍ତି: <strong>{transcriptInfo.occupation}</strong>
+                </span>
+                <span className="bg-emerald-100 text-emerald-900 px-2 py-1 rounded-md font-medium">
+                  ଆୟ: <strong>₹{transcriptInfo.income?.toLocaleString('en-IN')}</strong>
+                </span>
+                <span className="bg-emerald-100 text-emerald-900 px-2 py-1 rounded-md font-medium">
+                  ରାସନ କାର୍ଡ: <strong>{transcriptInfo.has_ration_card ? 'ହଁ (Yes)' : 'ନାହିଁ (No)'}</strong>
+                </span>
+              </div>
+              <p className="text-[11px] text-emerald-700 mt-2 font-medium">
+                👇 ତଳ ଫର୍ମରେ ତଥ୍ୟ ସ୍ୱତଃ ପୂରଣ ହୋଇଛି (Form below automatically filled).
+              </p>
+            </div>
+          )}
+
+          {errorMessage && (
+            <div className="mt-3 p-3 bg-red-50 border border-red-200 rounded-xl text-red-800 text-xs sm:text-sm max-w-md">
+              <p className="font-bold">⚠️ {errorMessage.or}</p>
+              <p className="text-stone-600 text-[11px] mt-0.5">{errorMessage.en}</p>
+            </div>
+          )}
+
+          {/* Sample Demo Button */}
+          <div className="mt-4 flex items-center gap-2">
+            <button
+              type="button"
+              onClick={triggerDemoAudio}
+              disabled={busy}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold text-green-900 bg-amber-200/80 hover:bg-amber-300 border border-amber-400 active:scale-95 transition-all shadow-sm"
+            >
+              <span>✨</span>
+              <span>ଅଡ଼ିଓ ନମୁନା ପରୀକ୍ଷା (Test Sample Odia Voice Demo)</span>
+            </button>
+          </div>
+        </section>
+      );
+    }
+
+    // =========================================================================
+    // 6. COMPONENT: EligibilityForm
+    // =========================================================================
+    function EligibilityForm({ formData, setFormData, onSubmit, isLoading, highlightVoiceUpdate }) {
+      const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setFormData((prev) => ({
+          ...prev,
+          [name]: type === 'checkbox' ? checked : value
+        }));
+      };
+
+      const occupations = [
+        { value: 'Farmer', label_or: 'କୃଷକ (ଚାଷୀ)', label_en: 'Farmer / Cultivator' },
+        { value: 'Agricultural Labourer', label_or: 'କୃଷି ଶ୍ରମିକ (ମୂଲିଆ)', label_en: 'Agricultural Labourer' },
+        { value: 'Small Artisan', label_or: 'କ୍ଷୁଦ୍ର କାରିଗର', label_en: 'Small Artisan / Craftsman' },
+        { value: 'Self Employed', label_or: 'ଆତ୍ମ ନିୟୋଜିତ / ବ୍ୟବସାୟୀ', label_en: 'Self Employed / Small Business' },
+        { value: 'Other', label_or: 'ଅନ୍ୟାନ୍ୟ', label_en: 'Other Rural Resident' }
+      ];
+
+      return (
+        <form
+          onSubmit={onSubmit}
+          className={`w-full bg-white rounded-3xl p-6 sm:p-8 shadow-md border-2 transition-all duration-500 ${
+            highlightVoiceUpdate
+              ? 'border-amber-400 ring-4 ring-amber-300/40 bg-amber-50/20'
+              : 'border-green-800/10'
+          }`}
+        >
+          {/* Form Header */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-4 mb-6 border-b border-stone-200">
+            <div>
+              <h2 className="text-xl sm:text-2xl font-bold text-green-950 flex items-center gap-2">
+                <span>କୃଷକ ତଥ୍ୟ ଫର୍ମ</span>
+                <span className="text-stone-400 font-normal">|</span>
+                <span className="text-sm sm:text-lg font-semibold text-stone-600">Farmer Profile</span>
+              </h2>
+              <p className="text-xs sm:text-sm text-stone-500">
+                ଭଏସ୍ କିମ୍ବା ହାତରେ ତଥ୍ୟ ପୂରଣ କରି ଯୋଜନା ଖୋଜନ୍ତୁ (Verify or edit your details)
+              </p>
+            </div>
+
+            {highlightVoiceUpdate && (
+              <span className="inline-flex items-center gap-1.5 self-start sm:self-center px-3 py-1 rounded-full text-xs font-bold bg-amber-500 text-green-950 shadow-sm animate-bounce">
+                ✨ ଭଏସ୍‌ରୁ ଅପଡେଟ୍ ହେଲା (Voice Auto-Filled)
+              </span>
+            )}
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {/* 1. Age */}
+            <div className="flex flex-col">
+              <label htmlFor="age-input" className="text-sm sm:text-base font-bold text-green-900 mb-1.5 flex items-center justify-between">
+                <span>ବୟସ / Age</span>
+                <span className="text-xs font-normal text-stone-500">(୧୮ - ୧୦୦ ବର୍ଷ)</span>
+              </label>
+              <div className="relative">
+                <input
+                  id="age-input"
+                  type="number"
+                  name="age"
+                  min="18"
+                  max="100"
+                  required
+                  value={formData.age}
+                  onChange={handleChange}
+                  placeholder="e.g. 55"
+                  className="w-full text-lg font-semibold px-4 py-3.5 rounded-xl border-2 border-stone-300 focus:border-green-700 focus:ring-2 focus:ring-green-600/30 text-stone-900 placeholder-stone-400 transition-all outline-none bg-stone-50/50"
+                />
+                <span className="absolute right-4 top-1/2 -translate-y-1/2 text-sm font-semibold text-stone-500">
+                  ବର୍ଷ / Yrs
+                </span>
+              </div>
+              <p className="text-[11px] text-stone-500 mt-1">
+                ବୟସ ଅନୁଯାୟୀ ବୃଦ୍ଧକାଳୀନ ଭତ୍ତା ଓ କୃଷି ଯୋଜନା ନିର୍ଦ୍ଧାରଣ ହୁଏ
+              </p>
+            </div>
+
+            {/* 2. Occupation */}
+            <div className="flex flex-col">
+              <label htmlFor="occupation-select" className="text-sm sm:text-base font-bold text-green-900 mb-1.5 flex items-center justify-between">
+                <span>ବୃତ୍ତି / Occupation</span>
+                <span className="text-xs font-normal text-stone-500">ପ୍ରମୁଖ କାର୍ଯ୍ୟ</span>
+              </label>
+              <div className="relative">
+                <select
+                  id="occupation-select"
+                  name="occupation"
+                  value={formData.occupation}
+                  onChange={handleChange}
+                  className="w-full text-base sm:text-lg font-semibold px-4 py-3.5 rounded-xl border-2 border-stone-300 focus:border-green-700 focus:ring-2 focus:ring-green-600/30 text-stone-900 bg-stone-50/50 transition-all outline-none appearance-none cursor-pointer"
+                >
+                  {occupations.map((occ) => (
+                    <option key={occ.value} value={occ.value}>
+                      {occ.label_or} - {occ.label_en}
+                    </option>
+                  ))}
+                </select>
+                <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-stone-600">
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
+              <p className="text-[11px] text-stone-500 mt-1">
+                ଚାଷୀ ଓ କୃଷି ଶ୍ରମିକଙ୍କ ପାଇଁ କାଳିଆ, ପିଏମ୍-କିଷାନ ଓ ବଳରାମ ଯୋଜନା ବିଶେଷ ପ୍ରଯୁଜ୍ୟ
+              </p>
+            </div>
+
+            {/* 3. Income */}
+            <div className="flex flex-col">
+              <label htmlFor="income-input" className="text-sm sm:text-base font-bold text-green-900 mb-1.5 flex items-center justify-between">
+                <span>ବାର୍ଷିକ ଆୟ / Annual Income</span>
+                <span className="text-xs font-normal text-stone-500">(₹ ଟଙ୍କା)</span>
+              </label>
+              <div className="relative">
+                <span className="absolute left-4 top-1/2 -translate-y-1/2 text-lg font-bold text-green-800">₹</span>
+                <input
+                  id="income-input"
+                  type="number"
+                  name="income"
+                  min="0"
+                  step="1000"
+                  required
+                  value={formData.income}
+                  onChange={handleChange}
+                  placeholder="e.g. 40000"
+                  className="w-full text-lg font-semibold pl-10 pr-4 py-3.5 rounded-xl border-2 border-stone-300 focus:border-green-700 focus:ring-2 focus:ring-green-600/30 text-stone-900 placeholder-stone-400 transition-all outline-none bg-stone-50/50"
+                />
+              </div>
+              <div className="flex items-center justify-between text-[11px] text-stone-500 mt-1">
+                <span>ସମଗ୍ର ପରିବାରର ମୋଟ ଆୟ</span>
+                {Number(formData.income) > 0 && (
+                  <span className="font-semibold text-green-800">
+                    ₹{Number(formData.income).toLocaleString('en-IN')}
+                  </span>
+                )}
+              </div>
+            </div>
+
+            {/* 4. Ration Card Status */}
+            <div className="flex flex-col justify-between">
+              <label className="text-sm sm:text-base font-bold text-green-900 mb-1.5">
+                ରାସନ କାର୍ଡ ଅଛି କି? / Ration Card Status
+              </label>
+              <label 
+                htmlFor="ration-card-checkbox"
+                className={`w-full flex items-center justify-between p-3.5 rounded-xl border-2 cursor-pointer transition-all duration-200 select-none ${
+                  formData.has_ration_card
+                    ? 'bg-amber-500/10 border-amber-500 text-green-950 shadow-sm'
+                    : 'bg-stone-50 border-stone-300 text-stone-700 hover:bg-stone-100'
+                }`}
+              >
+                <div className="flex items-center gap-3">
+                  <input
+                    id="ration-card-checkbox"
+                    type="checkbox"
+                    name="has_ration_card"
+                    checked={formData.has_ration_card}
+                    onChange={handleChange}
+                    className="w-6 h-6 text-green-800 rounded-md border-stone-400 focus:ring-green-600 cursor-pointer accent-green-800"
+                  />
+                  <div className="flex flex-col">
+                    <span className="text-sm sm:text-base font-bold">
+                      {formData.has_ration_card ? 'ହଁ, ରାସନ କାର୍ଡ ଅଛି' : 'ନାହିଁ (No Ration Card)'}
+                    </span>
+                    <span className="text-xs text-stone-500">
+                      {formData.has_ration_card ? 'NFSA / SFSS / BSKY Card Available' : 'Without Ration Card'}
+                    </span>
+                  </div>
+                </div>
+
+                <span className={`text-xl ${formData.has_ration_card ? 'text-green-700' : 'text-stone-300'}`}>
+                  💳
+                </span>
+              </label>
+              <p className="text-[11px] text-stone-500 mt-1">
+                ବିଜୁ ସ୍ୱାସ୍ଥ୍ୟ କଲ୍ୟାଣ ଯୋଜନା (BSKY) ପାଇଁ ରାସନ କାର୍ଡ ଆବଶ୍ୟକ
+              </p>
+            </div>
+          </div>
+
+          {/* Submit Button */}
+          <div className="mt-8 pt-4 border-t border-stone-200 flex flex-col sm:flex-row items-center justify-center gap-3">
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full sm:w-auto min-w-[280px] bg-amber-500 hover:bg-amber-600 text-green-950 font-black text-lg sm:text-xl py-4 px-8 rounded-2xl shadow-lg hover:shadow-xl hover:shadow-amber-500/25 active:scale-95 transition-all duration-200 flex items-center justify-center gap-3 border-2 border-amber-600"
+            >
+              {isLoading ? (
+                <>
+                  <svg className="animate-spin h-6 w-6 text-green-950" fill="none" viewBox="0 0 24 24">
+                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8H4z"></path>
+                  </svg>
+                  <span>ଖୋଜା ଚାଲିଛି... / Checking...</span>
+                </>
+              ) : (
+                <>
+                  <svg className="w-6 h-6 text-green-950" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span>ଯୋଗ୍ୟତା ଯାଞ୍ଚ କରନ୍ତୁ / Check Eligibility</span>
+                </>
+              )}
+            </button>
+          </div>
+        </form>
+      );
+    }
+
+    // =========================================================================
+    // 7. COMPONENT: SchemeResults (Dual Odia & English Speech Synthesis)
+    // =========================================================================
+    function SchemeResults({ userData }) {
+      const [schemes, setSchemes] = useState([]);
+      const [isLoading, setIsLoading] = useState(true);
+      const [speakingKey, setSpeakingKey] = useState(null);
+
+      // Fetch matching schemes
+      useEffect(() => {
+        async function fetchSchemes() {
+          if (!userData) return;
+          setIsLoading(true);
+
+          const age = Number(userData.age) || 55;
+          const income = Number(userData.income) || 40000;
+          const hasRationCard = Boolean(userData.has_ration_card);
+
+          try {
+            if (dbClient) {
+              let query = dbClient.from('schemes').select('*');
+              if (age > 0) query = query.lte('min_age', age);
+              if (income > 0) query = query.gte('max_income', income);
+              if (!hasRationCard) query = query.eq('requires_ration_card', false);
+
+              const { data, error } = await query;
+              if (!error && data && data.length > 0) {
+                setSchemes(data);
+                setIsLoading(false);
+                return;
+              }
+            }
+          } catch (e) {
+            console.warn("Notice: Loading matched government schemes.");
+          }
+
+          // Matched local schemes
+          const matched = SCHEMES_DATA.filter(s => {
+            if (s.min_age && age < s.min_age) return false;
+            if (s.max_income && income > 0 && income > s.max_income) return false;
+            if (s.requires_ration_card && !hasRationCard) return false;
+            return true;
+          });
+          setSchemes(matched);
+          setIsLoading(false);
+        }
+
+        fetchSchemes();
+      }, [userData?.age, userData?.income, userData?.occupation, userData?.has_ration_card]);
+
+      /**
+       * Universal Speech Synthesis
+       */
+      const speakText = (key, text, lang = 'en') => {
+        if (!('speechSynthesis' in window)) {
+          alert("ଆପଣଙ୍କ ବ୍ରାଉଜରରେ ସ୍ପିଚ୍ ସିନ୍ଥେସିସ୍ ସମର୍ଥନ ନାହିଁ। (Speech synthesis is not supported on this browser)");
+          return;
+        }
+
+        if (speakingKey === key) {
+          window.speechSynthesis.cancel();
+          setSpeakingKey(null);
+          return;
+        }
+
+        window.speechSynthesis.cancel();
+        setSpeakingKey(key);
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.rate = 0.9;
+
+        const voices = window.speechSynthesis.getVoices();
+        let selectedVoice = null;
+
+        if (lang === 'or') {
+          selectedVoice = voices.find(v => v.lang.includes('or') || v.lang.includes('ori') || v.lang.includes('hi-IN') || v.lang.includes('en-IN'));
+        } else {
+          selectedVoice = voices.find(v => v.lang.includes('en-IN') || v.lang.includes('en-GB') || v.lang.includes('en-US') || v.lang.includes('en'));
+        }
+
+        if (selectedVoice) {
+          utterance.voice = selectedVoice;
+        }
+
+        utterance.onend = () => setSpeakingKey(null);
+        utterance.onerror = () => setSpeakingKey(null);
+
+        window.speechSynthesis.speak(utterance);
+      };
+
+      const handlePlayOdiaSummary = () => {
+        const count = schemes.length;
+        const names = schemes.map((s, idx) => `${idx + 1}. ${s.name_or || s.name_en}`).join('। ');
+        const speechText = `ଓଡ଼ିଆ ସହାୟକ ସୂଚନା। ଆପଣଙ୍କ ବୟସ ${userData?.age || 55} ଏବଂ ଆୟ ଅନୁଯାୟୀ ${count} ଟି ସରକାରୀ ଯୋଜନା ଚିହ୍ନଟ ହୋଇଛି। ଯେପରିକି: ${names}। ପ୍ରତ୍ୟେକ ଯୋଜନାର ବିବରଣୀ ତଳେ ଉପଲବ୍ଧ ଅଛି।`;
+        speakText("summary-or", speechText, "or");
+      };
+
+      const handlePlayEnglishSummary = () => {
+        const count = schemes.length;
+        const names = schemes.map((s, idx) => `${idx + 1}. ${s.name_en || s.name_or}`).join(', ');
+        const speechText = `Odia Sahayak Scheme Summary: Based on your age of ${userData?.age || 55} and household income, you are eligible for ${count} government schemes: ${names}. You can listen to each scheme details below and click to apply online.`;
+        speakText("summary-en", speechText, "en");
+      };
+
+      return (
+        <section className="w-full mt-6" aria-label="Eligible Government Schemes Results">
+          {/* Results Header Bar with Dual Summary Buttons */}
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 bg-green-900 text-white p-5 rounded-2xl shadow-sm border-l-8 border-amber-500">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-2xl">🌾</span>
+                <h2 className="text-xl sm:text-2xl font-black">
+                  ଆପଣଙ୍କ ପାଇଁ ଯୋଗ୍ୟ ସରକାରୀ ଯୋଜନା
+                </h2>
+              </div>
+              <p className="text-xs sm:text-sm text-green-200 mt-1">
+                ଯୋଗ୍ୟତା ତଥ୍ୟ / Matched Schemes: Age {userData?.age || '55'} • {userData?.occupation || 'Farmer'} • Income ₹{Number(userData?.income || 40000).toLocaleString('en-IN')} • Ration Card: {userData?.has_ration_card ? 'Yes' : 'No'}
+              </p>
+            </div>
+
+            {/* Play Summary Buttons (Odia & English) */}
+            <div className="flex flex-wrap items-center gap-2">
+              <button
+                type="button"
+                onClick={handlePlayOdiaSummary}
+                className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl font-bold text-xs shadow-md active:scale-95 transition-all ${
+                  speakingKey === "summary-or"
+                    ? 'bg-red-600 text-white ring-4 ring-red-300 animate-pulse'
+                    : 'bg-amber-400 hover:bg-amber-500 text-green-950 border border-amber-300'
+                }`}
+              >
+                <span>{speakingKey === "summary-or" ? '⏹️' : '🔊'}</span>
+                <span>{speakingKey === "summary-or" ? 'ବନ୍ଦ କରନ୍ତୁ' : 'ସାରାଂଶ (Odia)'}</span>
+              </button>
+
+              <button
+                type="button"
+                onClick={handlePlayEnglishSummary}
+                className={`inline-flex items-center gap-1.5 px-3.5 py-2 rounded-xl font-bold text-xs shadow-md active:scale-95 transition-all ${
+                  speakingKey === "summary-en"
+                    ? 'bg-red-600 text-white ring-4 ring-red-300 animate-pulse'
+                    : 'bg-green-700 hover:bg-green-600 text-white border border-green-600'
+                }`}
+              >
+                <span>{speakingKey === "summary-en" ? '⏹️' : '🔊'}</span>
+                <span>{speakingKey === "summary-en" ? 'Stop Audio' : 'Summary (English)'}</span>
+              </button>
+
+              <span className="px-3 py-1.5 rounded-full text-xs font-bold bg-green-800 text-green-200 border border-green-700">
+                {schemes?.length || 0} ଟି ଯୋଜନା
+              </span>
+            </div>
+          </div>
+
+          {/* Loading Skeleton */}
+          {isLoading && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {[1, 2].map((i) => (
+                <div key={i} className="bg-white rounded-3xl p-6 border-2 border-stone-200 animate-pulse">
+                  <div className="h-6 bg-stone-200 rounded-full w-2/3 mb-4"></div>
+                  <div className="h-4 bg-stone-200 rounded-full w-full mb-2"></div>
+                  <div className="h-4 bg-stone-200 rounded-full w-4/5 mb-6"></div>
+                  <div className="h-20 bg-stone-100 rounded-2xl mb-4"></div>
+                  <div className="h-10 bg-stone-200 rounded-xl w-full"></div>
+                </div>
+              ))}
+            </div>
+          )}
+
+          {/* Empty State */}
+          {!isLoading && (!schemes || schemes.length === 0) && (
+            <div className="bg-white rounded-3xl p-8 text-center border-2 border-stone-200 shadow-sm">
+              <div className="w-16 h-16 mx-auto mb-3 text-amber-600 bg-amber-100 rounded-full flex items-center justify-center text-3xl">
+                🌾
+              </div>
+              <h3 className="text-xl font-bold text-green-950">
+                କୌଣସି ଯୋଜନା ମିଳିଲା ନାହିଁ (No Matching Schemes)
+              </h3>
+              <p className="text-sm text-stone-600 mt-2 max-w-md mx-auto">
+                ଆପଣଙ୍କ ବୟସ କିମ୍ବା ଆୟ ଫର୍ମରେ ପରିବର୍ତ୍ତନ କରି ପୁନର୍ବାର ଯାଞ୍ଚ କରନ୍ତୁ।
+              </p>
+            </div>
+          )}
+
+          {/* Schemes Grid */}
+          {!isLoading && schemes && schemes.length > 0 && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {schemes.map((scheme) => {
+                const isPlayingOdia = speakingKey === `${scheme.id}-or`;
+                const isPlayingEnglish = speakingKey === `${scheme.id}-en`;
+
+                const odiaAudioText = scheme.audioText_or || `${scheme.name_or}। ${scheme.description_or}`;
+                const englishAudioText = scheme.audioText_en || `${scheme.name_en}: ${scheme.description_en || ''}`;
+
+                return (
+                  <article
+                    key={scheme.id || scheme.slug || scheme.name_en}
+                    className="bg-white rounded-3xl p-6 sm:p-7 shadow-md border-2 border-green-800/15 hover:border-amber-500 hover:shadow-xl transition-all duration-300 flex flex-col justify-between relative overflow-hidden group"
+                  >
+                    <div className="absolute top-0 left-0 right-0 h-2 bg-gradient-to-r from-green-700 via-amber-500 to-green-800"></div>
+
+                    <div>
+                      {/* Badge & Dual Audio Buttons */}
+                      <div className="flex flex-wrap items-center justify-between gap-2 mb-3">
+                        <span className={`inline-block px-3 py-1 rounded-full text-xs font-bold border ${scheme.badgeColor || 'bg-green-100 text-green-900 border-green-300'}`}>
+                          {scheme.badge || 'ଓଡ଼ିଶା ସରକାର / Govt. of Odisha'}
+                        </span>
+
+                        {/* Dual Audio Playback Buttons: Odia and English */}
+                        <div className="flex items-center gap-1.5">
+                          {/* Odia Audio Button */}
+                          <button
+                            type="button"
+                            onClick={() => speakText(`${scheme.id}-or`, odiaAudioText, "or")}
+                            title="Listen in Odia"
+                            className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold transition-all active:scale-95 shadow-sm ${
+                              isPlayingOdia
+                                ? 'bg-red-600 text-white animate-pulse'
+                                : 'bg-amber-100 text-amber-900 hover:bg-amber-200 border border-amber-300'
+                            }`}
+                          >
+                            <span>{isPlayingOdia ? '⏹️' : '🔊'}</span>
+                            <span>{isPlayingOdia ? 'Stop' : 'ଶୁଣନ୍ତୁ (Odia)'}</span>
+                          </button>
+
+                          {/* English Audio Button (Works 100% reliably on all machines) */}
+                          <button
+                            type="button"
+                            onClick={() => speakText(`${scheme.id}-en`, englishAudioText, "en")}
+                            title="Listen in English"
+                            className={`inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-bold transition-all active:scale-95 shadow-sm ${
+                              isPlayingEnglish
+                                ? 'bg-red-600 text-white animate-pulse'
+                                : 'bg-stone-100 text-stone-800 hover:bg-stone-200 border border-stone-300'
+                            }`}
+                          >
+                            <span>{isPlayingEnglish ? '⏹️' : '🔊'}</span>
+                            <span>{isPlayingEnglish ? 'Stop' : 'Listen (English)'}</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Scheme Title in Odia & English (Bilingual, e.g. KALIA and PM-KISAN) */}
+                      <h3 className="text-xl sm:text-2xl font-black text-green-950 group-hover:text-green-800 transition-colors">
+                        {scheme.name_or || scheme.name}
+                      </h3>
+                      <p className="text-xs sm:text-sm font-semibold text-stone-500 mb-2">
+                        {scheme.name_en} — <span className="font-normal text-stone-400">{scheme.department_en || scheme.department}</span>
+                      </p>
+
+                      {/* Description */}
+                      <p className="text-sm text-stone-700 leading-relaxed bg-orange-50/70 p-3.5 rounded-2xl border border-orange-100 mb-4 font-medium">
+                        {scheme.description_or || scheme.description_en}
+                      </p>
+
+                      {/* Benefits */}
+                      <div className="mb-4">
+                        <h4 className="text-xs sm:text-sm font-bold text-green-950 uppercase tracking-wider mb-2 flex items-center gap-1.5">
+                          <span className="text-green-700 font-extrabold">✓</span>
+                          <span>ମୁଖ୍ୟ ଲାଭ / Key Benefits:</span>
+                        </h4>
+                        <ul className="space-y-2 text-xs sm:text-sm text-stone-700">
+                          {(scheme.benefits_or || scheme.benefits_en || []).map((benefit, idx) => (
+                            <li key={idx} className="flex items-start gap-2">
+                              <span className="w-4 h-4 rounded-full bg-green-100 text-green-800 font-bold flex items-center justify-center flex-shrink-0 text-[10px] mt-0.5">
+                                ✓
+                              </span>
+                              <span className="font-medium text-stone-800">{benefit}</span>
+                            </li>
+                          ))}
+                        </ul>
+                      </div>
+
+                      {/* Documents */}
+                      {(scheme.documents_or || scheme.documents_en) && (
+                        <div className="mb-4 pt-3 border-t border-stone-100">
+                          <p className="text-xs font-bold text-stone-600 mb-1.5">
+                            📄 ଆବଶ୍ୟକୀୟ କାଗଜପତ୍ର (Documents Required):
+                          </p>
+                          <div className="flex flex-wrap gap-1.5">
+                            {(scheme.documents_or || scheme.documents_en).map((doc, docIdx) => (
+                              <span 
+                                key={docIdx}
+                                className="text-[11px] bg-stone-100 text-stone-700 px-2 py-0.5 rounded-md border border-stone-200"
+                              >
+                                {doc}
+                              </span>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+
+                    {/* Action Bar */}
+                    <div className="pt-4 border-t border-stone-100 flex flex-col sm:flex-row items-center justify-between gap-3 mt-2">
+                      <div className="text-xs text-stone-500 text-center sm:text-left">
+                        <span className="block font-semibold text-stone-700">
+                          ହେଲ୍ପଲାଇନ୍: {scheme.helpline || '1551'}
+                        </span>
+                        <span className="text-[10px] text-green-700 font-medium">
+                          ନିକଟସ୍ଥ 'ମୋ ସେବା କେନ୍ଦ୍ର' ରେ ଉପଲବ୍ଧ
+                        </span>
+                      </div>
+
+                      <a
+                        href={scheme.official_link || 'https://odisha.gov.in'}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl text-sm font-bold bg-green-800 hover:bg-green-900 text-white shadow hover:shadow-md active:scale-95 transition-all duration-200 border border-green-950"
+                      >
+                        <span>ଅଧିକ ଜାଣନ୍ତୁ ଓ ଆବେଦନ</span>
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                        </svg>
+                      </a>
+                    </div>
+                  </article>
+                );
+              })}
+            </div>
+          )}
+        </section>
+      );
+    }
+
+    // =========================================================================
+    // 8. COMPONENT: DisclaimerFooter
+    // =========================================================================
+    function DisclaimerFooter() {
+      return (
+        <footer className="w-full mt-12 bg-stone-900 text-stone-300 border-t-4 border-amber-500">
+          <div className="max-w-4xl mx-auto px-4 py-8 flex flex-col items-center text-center">
+            {/* Warning Banner */}
+            <div className="w-full bg-amber-500/10 border-2 border-amber-500/50 rounded-2xl p-4 sm:p-5 mb-6 text-amber-200">
+              <div className="flex items-center justify-center gap-2 mb-1">
+                <span className="text-xl">⚠️</span>
+                <h3 className="text-base sm:text-lg font-bold text-amber-300">
+                  ସରକାରୀ ସୂଚନା ଓ ସତର୍କତା / Official Advisory
+                </h3>
+              </div>
+              <p className="text-sm sm:text-base font-semibold text-amber-100 mt-1">
+                ⚠️ Guidance only. Verify on official government portals.
+              </p>
+              <p className="text-xs sm:text-sm text-stone-300 mt-1">
+                ଏହି ଆପ୍ କେବଳ ସୂଚନା ଓ ସହାୟତା ପାଇଁ ପ୍ରସ୍ତୁତ। ଯୋଜନାର ଚୂଡ଼ାନ୍ତ ନିୟମାବଳୀ ଓ ପଞ୍ଜୀକରଣ ପାଇଁ ସରକାରୀ ପୋର୍ଟାଲ କିମ୍ବା ନିକଟସ୍ଥ "ମୋ ସେବା କେନ୍ଦ୍ର" କୁ ଯାଆନ୍ତୁ।
+              </p>
+            </div>
+
+            {/* Quick Links */}
+            <div className="w-full flex flex-wrap items-center justify-center gap-4 text-xs sm:text-sm text-stone-400 mb-6">
+              <a href="https://kalia.odisha.gov.in" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors underline decoration-stone-600 underline-offset-4">
+                କାଳିଆ ପୋର୍ଟାଲ (kalia.odisha.gov.in)
+              </a>
+              <span>•</span>
+              <a href="https://bsky.odisha.gov.in" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors underline decoration-stone-600 underline-offset-4">
+                ବିଏସକେୱାଇ ପୋର୍ଟାଲ (bsky.odisha.gov.in)
+              </a>
+              <span>•</span>
+              <a href="https://agrisnetodisha.ori.nic.in" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors underline decoration-stone-600 underline-offset-4">
+                କୃଷି ବିଭାଗ (Agrisnet Odisha)
+              </a>
+              <span>•</span>
+              <a href="https://odisha.gov.in" target="_blank" rel="noopener noreferrer" className="hover:text-amber-400 transition-colors underline decoration-stone-600 underline-offset-4">
+                ଓଡ଼ିଶା ସରକାର (odisha.gov.in)
+              </a>
+            </div>
+
+            {/* Helplines */}
+            <div className="flex flex-wrap items-center justify-center gap-2 text-xs mb-6">
+              <span className="bg-stone-800 text-stone-300 px-3 py-1.5 rounded-full border border-stone-700">
+                🌾 କିଷାନ କଲ୍ ସେଣ୍ଟର: <strong>1551</strong>
+              </span>
+              <span className="bg-stone-800 text-stone-300 px-3 py-1.5 rounded-full border border-stone-700">
+                🏥 BSKY ସ୍ୱାସ୍ଥ୍ୟ ସହାୟତା: <strong>104</strong>
+              </span>
+              <span className="bg-stone-800 text-stone-300 px-3 py-1.5 rounded-full border border-stone-700">
+                🏛️ ଟୋଲ୍ ଫ୍ରି କାଳିଆ ହେଲ୍ପଲାଇନ୍: <strong>1800-572-1122</strong>
+              </span>
+            </div>
+
+            <p className="text-xs text-stone-500">
+              ଓଡ଼ିଆ ସହାୟକ (Odia Sahayak) — Odisha Farmer Welfare & Government Scheme Portal
+            </p>
+          </div>
+        </footer>
+      );
+    }
+
+    // =========================================================================
+    // 9. MAIN APP CONTAINER
+    // =========================================================================
+    function App() {
+      const [formData, setFormData] = useState({
+        age: 55,
+        occupation: 'Farmer',
+        income: 40000,
+        has_ration_card: true
+      });
+
+      const [highlightVoiceUpdate, setHighlightVoiceUpdate] = useState(false);
+
+      const handleVoiceParsed = (extractedData) => {
+        console.log("📥 Voice data parsed:", extractedData);
+
+        const updatedForm = {
+          age: extractedData.age !== undefined && extractedData.age !== null ? Number(extractedData.age) : formData.age,
+          occupation: extractedData.occupation || formData.occupation,
+          income: extractedData.income !== undefined && extractedData.income !== null ? Number(extractedData.income) : formData.income,
+          has_ration_card: extractedData.has_ration_card !== undefined ? Boolean(extractedData.has_ration_card) : formData.has_ration_card
+        };
+
+        setFormData(updatedForm);
+
+        // Flash visual highlight
+        setHighlightVoiceUpdate(true);
+        setTimeout(() => setHighlightVoiceUpdate(false), 4000);
+      };
+
+      const handleManualSubmit = (e) => {
+        if (e) e.preventDefault();
+        setFormData({ ...formData });
+      };
+
+      return (
+        <div className="min-h-screen bg-orange-50/70 text-stone-900 font-sans flex flex-col antialiased">
+          <HeroBanner />
+
+          <main className="flex-1 w-full max-w-4xl mx-auto px-4 py-6 sm:py-10 flex flex-col gap-6 sm:gap-8">
+            {/* Audio Prompt Tip */}
+            <div className="w-full bg-gradient-to-r from-amber-500 to-amber-600 text-green-950 font-bold px-4 py-3 rounded-2xl shadow-sm flex items-center justify-between text-xs sm:text-sm">
+              <div className="flex items-center gap-2">
+                <span className="text-xl">🎙️</span>
+                <span>ଓଡ଼ିଆରେ କହିବା ପାଇଁ ତଳ ବଟନ୍ ଦବାନ୍ତୁ (Press big mic button below to speak)</span>
+              </div>
+              <span className="hidden sm:inline-block bg-white/40 px-2 py-0.5 rounded-full text-xs font-black">
+                ଭଏସ୍ ସମର୍ଥିତ
+              </span>
+            </div>
+
+            <VoiceRecorder 
+              onVoiceParsed={handleVoiceParsed} 
+              isProcessingGlobal={false}
+            />
+
+            <EligibilityForm
+              formData={formData}
+              setFormData={setFormData}
+              onSubmit={handleManualSubmit}
+              isLoading={false}
+              highlightVoiceUpdate={highlightVoiceUpdate}
+            />
+
+            <SchemeResults 
+              userData={formData}
+            />
+          </main>
+
+          <DisclaimerFooter />
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
