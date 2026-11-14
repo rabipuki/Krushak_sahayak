@@ -275,7 +275,7 @@ export function App() {
           userData={formData}
         />
 
-      </main>
+      
 
       {/* 5. Persistent Disclaimer Footer */}
 
