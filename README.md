@@ -134,6 +134,20 @@ To connect to your live Supabase project:
    ALTER TABLE public.schemes ENABLE ROW LEVEL SECURITY;
    CREATE POLICY "Public schemes are viewable by everyone" 
      ON public.schemes FOR SELECT USING (true);
+
+   -- 2. Create Soil Tests Table (for SoilAnalyzer Component)
+   CREATE TABLE IF NOT EXISTS public.soil_tests (
+     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+     soil_quality TEXT NOT NULL,
+     solution TEXT NOT NULL,
+     created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+   );
+
+   ALTER TABLE public.soil_tests ENABLE ROW LEVEL SECURITY;
+   CREATE POLICY "Allow anonymous soil test insert" 
+     ON public.soil_tests FOR INSERT WITH CHECK (true);
+   CREATE POLICY "Allow public soil test view" 
+     ON public.soil_tests FOR SELECT USING (true);
    ```
 
 ---
