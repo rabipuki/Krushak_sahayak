@@ -1,0 +1,255 @@
+{
+  "farmers": [
+    {
+      "id": 1,
+      "fullName": "ରମେଶ ଚନ୍ଦ୍ର ସାହୁ (Ramesh Chandra Sahoo)",
+      "phone": "9876543210",
+      "email": "ramesh.farmer@example.com",
+      "password": "password123",
+      "district": "Cuttack",
+      "block": "Banki",
+      "village": "Subarnapur",
+      "landSizeAcres": 3.5,
+      "primarySoilType": "Alluvial Loam",
+      "preferredLanguage": "or",
+      "hasRationCard": true,
+      "annualIncome": 45000,
+      "createdAt": "2026-11-13T19:46:34.406Z"
+    }
+  ],
+  "plantAnalyses": [
+    {
+      "id": 2,
+      "farmerId": 1,
+      "cropName": "Rice / Paddy (ଧାନ)",
+      "cropNameOr": "ଧାନ",
+      "diseaseName": "Rice Blast (Magnaporthe oryzae)",
+      "diseaseNameOr": "ଧାନ ବ୍ଲାଷ୍ଟ୍ ରୋଗ (ଝଣା ରୋଗ)",
+      "confidenceScore": 0.91,
+      "healthStatus": "Diseased",
+      "severity": "High (ତୀବ୍ର)",
+      "recommendedTreatment": "Spray Tricyclazole 75% WP @ 0.6 g/L or Isoprothiolane 40% EC @ 1.5 mL/L of water at early heading.",
+      "treatmentOr": "ଟ୍ରାଇସାଇକ୍ଲାଜୋଲ୍ ୭୫% WP (Tricyclazole) ୦.୬ ଗ୍ରାମ ପ୍ରତି ଲିଟର ପାଣିରେ ମିଶାଇ ସିଞ୍ଚନ କରନ୍ତୁ।",
+      "organicTreatment": "Spray Neem oil (5000 ppm) @ 3 mL/L or Pseudomonas fluorescens 0.5% WP @ 10 g/L.",
+      "organicTreatmentOr": "ନିମ୍ବ ତେଲ (Neem Oil) ୩ ମିଲି କିମ୍ବା ସୁଡୋମୋନାସ ଫ୍ଲୋରେସେନ୍ସ ୧୦ ଗ୍ରାମ ପ୍ରତି ଲିଟର ପାଣିରେ ସିଞ୍ଚନ କରନ୍ତୁ।",
+      "suitableFertilizers": "Suspend top dressing of urea. Apply Muriate of Potash (MOP) @ 15 kg/acre to strengthen cell walls.",
+      "preventionMethods": "Treat seeds with Carbendazim 2g/kg or Trichoderma viride 10g/kg before sowing; Adopt balanced N:P:K ratio (80:40:40 kg/ha); Burn or deeply plow infected crop stubbles after harvest",
+      "imageUrl": "https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=400&q=80",
+      "isDemonstrationMode": true,
+      "createdAt": "2026-11-13T19:46:36.393Z"
+    },
+    {
+      "id": 1,
+      "farmerId": 1,
+      "cropName": "Rice / Paddy (ଧାନ)",
+      "cropNameOr": "ଧାନ",
+      "diseaseName": "Rice Blast (Magnaporthe oryzae)",
+      "diseaseNameOr": "ଧାନ ବ୍ଲାଷ୍ଟ୍ ରୋଗ (ଝଣା ରୋଗ)",
+      "confidenceScore": 0.91,
+      "healthStatus": "Diseased",
+      "severity": "High (ତୀବ୍ର)",
+      "visibleSymptoms": "Spindle-shaped lesions with grayish centers and brown borders on leaves.",
+      "symptomsOr": "ପତ୍ରରେ ଧାରୁଆ କଳା-ବାଦାମୀ ଦାଗ ଏବଂ କେଣ୍ଡା ମୂଳ କଳା ପଡ଼ି ଧାନ ଶୁଖିଯାଏ।",
+      "possibleCauses": "Excessive urea application and high relative humidity (>90%).",
+      "causesOr": "ଅତ୍ୟଧିକ ୟୁରିଆ ଏବଂ କୁହୁଡ଼ିଆ ପାଗରେ କବକ ବୃଦ୍ଧି।",
+      "recommendedTreatment": "Spray Tricyclazole 75% WP @ 0.6 g/L water (120 g/acre).",
+      "treatmentOr": "ଟ୍ରାଇସାଇକ୍ଲାଜୋଲ୍ ୭୫% WP (Tricyclazole) ୦.୬ ଗ୍ରାମ ପ୍ରତି ଲିଟର ପାଣିରେ ମିଶାଇ ସିଞ୍ଚନ କରନ୍ତୁ।",
+      "organicTreatment": "Spray Neem oil (5000 ppm) @ 3 mL/L or Pseudomonas fluorescens @ 10 g/L.",
+      "organicTreatmentOr": "ନିମ୍ବ ତେଲ (Neem Oil) ୩ ମିଲି କିମ୍ବା ସୁଡୋମୋନାସ ଫ୍ଲୋରେସେନ୍ସ ୧୦ ଗ୍ରାମ ସିଞ୍ଚନ କରନ୍ତୁ।",
+      "suitableFertilizers": "Suspend urea top-dressing. Apply Muriate of Potash (MOP) @ 15 kg/acre.",
+      "waterRequirements": "Maintain thin film of water (2-3 cm); avoid deep flooding.",
+      "sunlightRequirements": "Full sunlight with optimal airflow.",
+      "preventionMethods": "Seed treatment with Carbendazim 2g/kg or Trichoderma viride 10g/kg before sowing.",
+      "officialReference": "OUAT Crop Protection Guide & NRRI Cuttack",
+      "imageUrl": "https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&fit=crop&w=400&q=80",
+      "isDemonstrationMode": true,
+      "createdAt": "2026-11-11T19:46:34.407Z"
+    }
+  ],
+  "soilAnalyses": [
+    {
+      "id": 2,
+      "farmerId": 1,
+      "preliminarySoilType": "Alluvial Loam Soil (ପଟୁ ଦୋରସା ମାଟି / Alluvial Soil)",
+      "soilTypeOr": "ପଟୁ ଦୋରସା ମାଟି (Alluvial)",
+      "soilColor": "Greyish Brown to Dark Brown",
+      "soilColorOr": "ଧୂସର ବାଦାମୀ ରଙ୍ଗ",
+      "visibleTexture": "Medium loamy with balanced silt and clay aggregates",
+      "organicMatterStatus": "Moderate visible organic matter",
+      "surfaceDryness": "Optimum Field Capacity (ଉପଯୁକ୍ତ ବତର)",
+      "drainageAssessment": "Well-drained with balanced internal capillary movement",
+      "improvementOr": "ଏକର ପ୍ରତି ୨-୩ ଟନ୍ ଗୋବର ଖତ କିମ୍ବା ୧.୫ ଟନ୍ ଜିଆ ଖତ ପ୍ରୟୋଗ କରନ୍ତୁ ଏବଂ ଧଇଞ୍ଚା ଚାଷ କରି ମାଟିରେ ମିଶାନ୍ତୁ।",
+      "imageUrl": "https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=400&q=80",
+      "isDemonstrationMode": true,
+      "createdAt": "2026-11-13T19:46:36.396Z"
+    },
+    {
+      "id": 1,
+      "farmerId": 1,
+      "preliminarySoilType": "Alluvial Loam Soil (ପଟୁ ଦୋରସା ମାଟି)",
+      "soilTypeOr": "ପଟୁ ଦୋରସା ମାଟି (Alluvial)",
+      "soilColor": "Greyish Brown to Dark Brown",
+      "soilColorOr": "ଧୂସର ବାଦାମୀ ରଙ୍ଗ",
+      "visibleTexture": "Medium loamy with good granular structure",
+      "organicMatterStatus": "Moderate visible organic matter",
+      "surfaceDryness": "Optimum Field Capacity (ଉପଯୁକ୍ତ ବତର)",
+      "drainageAssessment": "Well-drained with balanced capillary movement",
+      "improvementSuggestions": "Incorporate 2-3 tons FYM or 1.5 tons Vermicompost per acre before primary tillage.",
+      "improvementOr": "ଏକର ପ୍ରତି ୨-୩ ଟନ୍ ଗୋବର ଖତ କିମ୍ବା ୧.୫ ଟନ୍ ଜିଆ ଖତ ପ୍ରୟୋଗ କରନ୍ତୁ।",
+      "imageUrl": "https://images.unsplash.com/photo-1464226184884-fa280b87c399?auto=format&fit=crop&w=400&q=80",
+      "isDemonstrationMode": true,
+      "createdAt": "2026-11-10T19:46:34.407Z"
+    }
+  ],
+  "soilTestReports": [
+    {
+      "id": 2,
+      "farmerId": 1,
+      "ph": 5.4,
+      "nitrogenKgHa": 210,
+      "phosphorusKgHa": 8,
+      "potassiumKgHa": 95,
+      "organicCarbonPercent": 0.48,
+      "electricalConductivityDsM": 0.35,
+      "targetCrop": "Paddy / ଧାନ",
+      "phClassification": "Acidic Soil (ଅମ୍ଳିଆ ମାଟି)",
+      "phClassificationOr": "ଅମ୍ଳିଆ ମାଟି",
+      "fertilizerSchedule": [
+        "Apply Neem Coated Urea @ 80 kg/acre in 3 split doses.",
+        "Apply Single Super Phosphate (SSP) @ 100 kg/acre as basal dose.",
+        "Apply Muriate of Potash (MOP) @ 30 kg/acre."
+      ],
+      "soilAmendments": [
+        "Apply Agricultural Lime @ 200 kg/acre to correct soil acidity."
+      ],
+      "organicAlternatives": [
+        "Apply 2.5 tons/acre Farmyard Manure (FYM) or 1.5 tons Vermicompost",
+        "Incorporate Dhaincha (Sesbania) green manure at 45 days stage"
+      ],
+      "organicAlternativesOr": [
+        "ଏକର ପ୍ରତି ୨.୫ ଟନ୍ ଗୋବର ଖତ କିମ୍ବା ୧.୫ ଟନ୍ ଜିଆ ଖତ ମିଶାନ୍ତୁ।",
+        "୪୫ ଦିନର ଧଇଞ୍ଚା ଫସଲକୁ ମାଟିରେ ମିଶାଇ ସବୁଜ ସାର ପ୍ରସ୍ତୁତ କରନ୍ତୁ।"
+      ],
+      "testedAt": "2026-11-13",
+      "createdAt": "2026-11-13T19:46:36.399Z"
+    },
+    {
+      "id": 1,
+      "farmerId": 1,
+      "ph": 6.4,
+      "nitrogenKgHa": 260,
+      "phosphorusKgHa": 14.5,
+      "potassiumKgHa": 165,
+      "organicCarbonPercent": 0.52,
+      "electricalConductivityDsM": 0.45,
+      "targetCrop": "Paddy / ଧାନ",
+      "phClassification": "Slightly Acidic to Optimal",
+      "fertilizerSchedule": "Apply Neem Coated Urea @ 70 kg/acre in 3 splits + SSP @ 90 kg/acre basal + MOP @ 25 kg/acre.",
+      "testedAt": "2026-11-01",
+      "createdAt": "2026-11-13T19:46:34.407Z"
+    }
+  ],
+  "cropCalendars": [
+    {
+      "id": 1,
+      "farmerId": 1,
+      "cropName": "Paddy / Rice (ଧାନ)",
+      "cropNameOr": "ଧାନ",
+      "sowingDate": "2026-10-15",
+      "district": "Cuttack",
+      "status": "ACTIVE",
+      "activities": [
+        {
+          "id": 1,
+          "stageOrder": 1,
+          "stageName": "Land Preparation",
+          "stageNameOr": "ଜମି ପ୍ରସ୍ତୁତି",
+          "title": "Deep Plowing & FYM Application",
+          "titleOr": "ଗଭୀର ଚାଷ ଓ ଗୋବର ଖତ ପ୍ରୟୋଗ",
+          "dueDate": "2026-10-05",
+          "isCompleted": true
+        },
+        {
+          "id": 2,
+          "stageOrder": 2,
+          "stageName": "Seed Selection",
+          "stageNameOr": "ବିହନ ଚୟନ ଓ ବିଶୋଧନ",
+          "title": "Seed Treatment with Trichoderma",
+          "titleOr": "ଟ୍ରାଇକୋଡର୍ମା ବିହନ ବିଶୋଧନ",
+          "dueDate": "2026-10-13",
+          "isCompleted": true
+        },
+        {
+          "id": 3,
+          "stageOrder": 3,
+          "stageName": "Sowing / Nursery",
+          "stageNameOr": "ବିହନ ବୁଣା / ତଳି ପ୍ରସ୍ତୁତି",
+          "title": "Nursery Bed Sowing",
+          "titleOr": "ତଳି ଘାରେ ବିହନ ବୁଣା",
+          "dueDate": "2026-10-15",
+          "isCompleted": true
+        },
+        {
+          "id": 4,
+          "stageOrder": 4,
+          "stageName": "Transplanting",
+          "stageNameOr": "ଚାରା ରୋପଣ (ରୁଆ)",
+          "title": "Transplant 21-day old Seedlings",
+          "titleOr": "୨୧ ଦିନର ତଳି ରୋପଣ",
+          "dueDate": "2026-11-05",
+          "isCompleted": true
+        },
+        {
+          "id": 5,
+          "stageOrder": 5,
+          "stageName": "Tillering Stage",
+          "stageNameOr": "ପିଲ ବାହାରିବା ସମୟ",
+          "title": "1st Split Urea + Potash (MOP)",
+          "titleOr": "ପ୍ରଥମ କିସ୍ତି ୟୁରିଆ ଓ ପଟାସ ପ୍ରୟୋଗ",
+          "dueDate": "2026-11-18",
+          "isCompleted": false
+        },
+        {
+          "id": 6,
+          "stageOrder": 6,
+          "stageName": "Pest Monitoring",
+          "stageNameOr": "କୀଟ ଓ ରୋଗ ଯାଞ୍ଚ",
+          "title": "Install Yellow Sticky Traps for Stem Borer",
+          "titleOr": "କାଣ୍ଡବିନ୍ଧା ପାଇଁ ଷ୍ଟିକି ଟ୍ରାପ୍ ଲଗାନ୍ତୁ",
+          "dueDate": "2026-11-25",
+          "isCompleted": false
+        },
+        {
+          "id": 7,
+          "stageOrder": 7,
+          "stageName": "Panicle Emergence",
+          "stageNameOr": "କେଣ୍ଡା ବାହାରିବା ସମୟ",
+          "title": "Maintain Standing Water & 2nd Potash",
+          "titleOr": "ପାଣି ବଜାୟ ରଖନ୍ତୁ ଓ ଦ୍ୱିତୀୟ କିସ୍ତି ପଟାସ ଦିଅନ୍ତୁ",
+          "dueDate": "2026-12-10",
+          "isCompleted": false
+        },
+        {
+          "id": 8,
+          "stageOrder": 8,
+          "stageName": "Grain Filling",
+          "stageNameOr": "ଦାନା ପୂରଣ",
+          "title": "Drain Water 10 Days Before Harvest",
+          "titleOr": "ଅମଳ ପୂର୍ବରୁ ପାଣି ନିଷ୍କାସନ କରନ୍ତୁ",
+          "dueDate": "2027-01-05",
+          "isCompleted": false
+        },
+        {
+          "id": 9,
+          "stageOrder": 9,
+          "stageName": "Harvesting",
+          "stageNameOr": "ଫସଲ ଅମଳ",
+          "title": "Harvest at 85% Golden Grain Stage",
+          "titleOr": "୮୫% ଦାନା ପାଚିଲେ ଅମଳ କରନ୍ତୁ",
+          "dueDate": "2027-01-20",
+          "isCompleted": false
+        }
+      ]
+    }
+  ]
+}
