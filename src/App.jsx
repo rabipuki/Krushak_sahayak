@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import HeroBanner from './components/HeroBanner.jsx';
 import VoiceRecorder from './components/VoiceRecorder.jsx';
+import SoilAnalyzer from './components/SoilAnalyzer.jsx';
 import EligibilityForm from './components/EligibilityForm.jsx';
 import SchemeResults from './components/SchemeResults.jsx';
 import DisclaimerFooter from './components/DisclaimerFooter.jsx';
@@ -247,6 +248,36 @@ export function App() {
           )}
         </main>
       </div>
+
+
+        {/* 2. VoiceRecorder Component */}
+        <VoiceRecorder 
+          onVoiceParsed={handleVoiceParsed} 
+          isProcessingGlobal={isLoading}
+        />
+
+        {/* Soil Health Analyzer Component */}
+        <SoilAnalyzer />
+
+        {/* 3. EligibilityForm Component */}
+        <EligibilityForm
+          formData={formData}
+          setFormData={setFormData}
+          onSubmit={handleManualSubmit}
+          isLoading={isLoading}
+          highlightVoiceUpdate={highlightVoiceUpdate}
+        />
+
+        {/* 4. SchemeResults Component */}
+        <SchemeResults 
+          schemes={schemes} 
+          isLoading={isLoading} 
+          userData={formData}
+        />
+
+      </main>
+
+      {/* 5. Persistent Disclaimer Footer */}
 
       <DisclaimerFooter />
 
