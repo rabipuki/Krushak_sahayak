@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import HeroBanner from './components/HeroBanner.jsx';
 import VoiceRecorder from './components/VoiceRecorder.jsx';
+import SoilAnalyzer from './components/SoilAnalyzer.jsx';
 import EligibilityForm from './components/EligibilityForm.jsx';
 import SchemeResults from './components/SchemeResults.jsx';
 import DisclaimerFooter from './components/DisclaimerFooter.jsx';
@@ -110,6 +111,9 @@ export function App() {
           onVoiceParsed={handleVoiceParsed} 
           isProcessingGlobal={isLoading}
         />
+
+        {/* Soil Health Analyzer Component */}
+        <SoilAnalyzer />
 
         {/* 3. EligibilityForm Component */}
         <EligibilityForm
