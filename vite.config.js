@@ -4,7 +4,11 @@ import react from '@vitejs/plugin-react';
 export default defineConfig({
   plugins: [react()],
   server: {
-    port: 3000,
-    open: true
+    // Vite dev server moved off 3000 because server.js (the API) already uses 3000.
+    port: 5173,
+    open: true,
+    proxy: {
+      '/api': 'http://127.0.0.1:3000'
+    }
   }
 });

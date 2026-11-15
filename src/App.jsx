@@ -4,6 +4,7 @@ import VoiceRecorder from './components/VoiceRecorder.jsx';
 import EligibilityForm from './components/EligibilityForm.jsx';
 import SchemeResults from './components/SchemeResults.jsx';
 import DisclaimerFooter from './components/DisclaimerFooter.jsx';
+import ChatBot from './components/ChatBot.jsx';
 import { fetchEligibleSchemes } from './services/schemeService.js';
 import { translations } from './data/i18n.js';
 
@@ -166,6 +167,14 @@ export function App() {
             <button onClick={() => handleNavClick('admin')} className={`w-full text-left px-3.5 py-2.5 rounded-xl ${currentPage === 'admin' ? 'bg-amber-500 text-green-950' : 'hover:bg-green-800/60'}`}>
               ୯. {t.nav_admin}
             </button>
+
+            {/* AI Chatbot */}
+            <button onClick={() => handleNavClick('chat')} className={`w-full text-left px-3.5 py-2.5 rounded-xl border ${currentPage === 'chat' ? 'bg-amber-500 text-green-950 border-amber-400 font-black' : 'bg-green-900/40 text-amber-200 border-amber-500/30 hover:bg-green-800/60'}`}>
+              <div className="flex items-center justify-between">
+                <span>୧୦. {lang === 'or' ? 'AI ସହାୟକ (ଚାଟ୍)' : 'AI Chat Assistant'}</span>
+                <span className="text-[10px] bg-amber-400 text-green-950 px-1.5 rounded-full font-black">AI</span>
+              </div>
+            </button>
           </nav>
         </aside>
 
@@ -232,7 +241,9 @@ export function App() {
             </div>
           )}
 
-          {currentPage !== 'home' && currentPage !== 'soil' && (
+          {currentPage === 'chat' && <ChatBot lang={lang} onLangChange={setLang} />}
+
+          {currentPage !== 'home' && currentPage !== 'soil' && currentPage !== 'chat' && (
             <div className="bg-white rounded-3xl p-6 sm:p-8 shadow-md border-2 border-green-800/20 text-center space-y-4">
               <h2 className="text-2xl font-black text-green-950">
                 {currentPage.toUpperCase()} MODULE
