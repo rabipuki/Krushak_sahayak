@@ -17,6 +17,7 @@ import http from 'http';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { handleChat } from './chatHandler.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -782,6 +783,13 @@ const server = http.createServer(async (req, res) => {
       });
     }
     return sendJSON(res, 200, { success: true, message: "Treatment verified and added to platform knowledge base." });
+  }
+
+  // 14. AI Chatbot (Gemini) - replies in Odia/English and returns scheme ids for cards
+  if (req.method === 'POST' && pathname === '/api/chat') {
+    const body = await parseBody(req);
+    const { status, data } = await handleChat(body, req.socket.remoteAddress || 'local');
+    return sendJSON(res, status, data);
   }
 
   // =========================================================================

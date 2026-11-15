@@ -163,5 +163,214 @@ export const MOCK_SCHEMES = [
     helpline: "1551",
     audioText_or: "ବଳରାମ ଯୋଜନା (BALARAM): ଭୂମିହୀନ ଚାଷୀ ଏବଂ ଶ୍ରମିକମାନେ ବିନା ବନ୍ଧକରେ ବ୍ୟାଙ୍କରୁ ସୁଲଭ କୃଷି ଋଣ ପାଇବା ପାଇଁ ଏହି ଯୋଜନା ଲାଭଦାୟକ।",
     audioText_en: "BALARAM Scheme: Bhoomihina Agriculturist Loan and Resources Augmentation Model provides collateral-free bank credit up to 1.6 lakh rupees for landless farmers and sharecroppers."
+  },
+  {
+    id: "subhadra",
+    name_en: "Subhadra Yojana",
+    name_or: "ସୁଭଦ୍ରା ଯୋଜନା (SUBHADRA)",
+    fullName_en: "Subhadra Yojana – Cash Support for Women",
+    fullName_or: "ସୁଭଦ୍ରା ଯୋଜନା",
+    department_en: "Women & Child Development and Mission Shakti Dept, Govt. of Odisha",
+    department_or: "ମହିଳା ଓ ଶିଶୁ ବିକାଶ ଏବଂ ମିଶନ ଶକ୍ତି ବିଭାଗ, ଓଡ଼ିଶା ସରକାର",
+    badge: "ଓଡ଼ିଶା ସରକାର / Govt. of Odisha",
+    badgeColor: "bg-pink-100 text-pink-900 border-pink-300",
+    icon: "Heart",
+    targetAudience_en: "Women aged 21-60 who are permanent residents of Odisha",
+    targetAudience_or: "ଓଡ଼ିଶାର ସ୍ଥାୟୀ ବାସିନ୍ଦା ୨୧ ରୁ ୬୦ ବର୍ଷ ବୟସର ମହିଳା",
+    eligibility_note_en: "Women only. Women already receiving Rs 1,500 or more per month from another state or central scheme are excluded.",
+    description_en: "Direct cash support for women: Rs 50,000 over five years, paid by DBT into the bank account, with a Subhadra debit card.",
+    description_or: "ମହିଳାମାନଙ୍କୁ ପାଞ୍ଚ ବର୍ଷରେ ମୋଟ ₹୫୦,୦୦୦ ସିଧାସଳଖ ବ୍ୟାଙ୍କ ଖାତାକୁ (DBT) ଦିଆଯାଉଥିବା ଆର୍ଥିକ ସହାୟତା ଯୋଜନା।",
+    benefits_en: [
+      "₹10,000 per year for 5 years (₹50,000 in total)",
+      "Paid in two instalments of ₹5,000 each year (Raksha Bandhan and International Women's Day)",
+      "Money goes directly to the bank account through DBT",
+      "Subhadra debit card for easy banking"
+    ],
+    benefits_or: [
+      "ପାଞ୍ଚ ବର୍ଷ ପାଇଁ ବାର୍ଷିକ ₹୧୦,୦୦୦ (ମୋଟ ₹୫୦,୦୦୦)",
+      "ପ୍ରତି ବର୍ଷ ₹୫,୦୦୦ ଲେଖାଏଁ ଦୁଇ କିସ୍ତିରେ (ରାଖୀ ପୂର୍ଣ୍ଣିମା ଓ ଅନ୍ତର୍ଜାତୀୟ ମହିଳା ଦିବସ)",
+      "DBT ଜରିଆରେ ସିଧାସଳଖ ବ୍ୟାଙ୍କ ଖାତାକୁ ଟଙ୍କା",
+      "ସୁଭଦ୍ରା ଡେବିଟ୍ କାର୍ଡ ସୁବିଧା"
+    ],
+    eligibility_criteria: {
+      min_age: 21,
+      max_age: 60,
+      max_income: null,
+      allowed_occupations: ["Farmer", "Agricultural Labourer", "Small Artisan", "Self Employed", "Other"],
+      requires_ration_card: false
+    },
+    documents_en: ["Aadhaar Card (with Aadhaar-linked mobile for e-KYC)", "Bank Account Details", "Proof of Odisha residence"],
+    documents_or: ["ଆଧାର କାର୍ଡ (ଆଧାର ସଂଲଗ୍ନ ମୋବାଇଲ୍ ନମ୍ବର)", "ବ୍ୟାଙ୍କ ଖାତା ବିବରଣୀ", "ଓଡ଼ିଶା ବାସିନ୍ଦା ପ୍ରମାଣପତ୍ର"],
+    official_link: "https://subhadra.odisha.gov.in",
+    helpline: "1551",
+    audioText_or: "ସୁଭଦ୍ରା ଯୋଜନା: ୨୧ ରୁ ୬୦ ବର୍ଷର ଓଡ଼ିଶାର ମହିଳାମାନଙ୍କୁ ପାଞ୍ଚ ବର୍ଷରେ ମୋଟ ପଚାଶ ହଜାର ଟଙ୍କା ସିଧାସଳଖ ବ୍ୟାଙ୍କ ଖାତାରେ ମିଳିଥାଏ।",
+    audioText_en: "Subhadra Yojana: Women aged 21 to 60 in Odisha receive a total of 50,000 rupees over five years, paid directly into their bank account."
+  },
+  {
+    id: "mission-shakti",
+    name_en: "Mission Shakti (SHG Support)",
+    name_or: "ମିଶନ ଶକ୍ତି (ସ୍ୱୟଂ ସହାୟକ ଗୋଷ୍ଠୀ)",
+    fullName_en: "Mission Shakti - Women Self Help Group Empowerment Programme",
+    fullName_or: "ମିଶନ ଶକ୍ତି - ମହିଳା ସ୍ୱୟଂ ସହାୟକ ଗୋଷ୍ଠୀ ସଶକ୍ତିକରଣ କାର୍ଯ୍ୟକ୍ରମ",
+    department_en: "Mission Shakti Dept, Govt. of Odisha",
+    department_or: "ମିଶନ ଶକ୍ତି ବିଭାଗ, ଓଡ଼ିଶା ସରକାର",
+    badge: "ଓଡ଼ିଶା ସରକାର / Govt. of Odisha",
+    badgeColor: "bg-purple-100 text-purple-900 border-purple-300",
+    icon: "Users",
+    targetAudience_en: "Women Self Help Group (SHG) members in Odisha",
+    targetAudience_or: "ଓଡ଼ିଶାର ମହିଳା ସ୍ୱୟଂ ସହାୟକ ଗୋଷ୍ଠୀ (SHG) ସଦସ୍ୟା",
+    eligibility_note_en: "Women only, through a registered Self Help Group (usually 10-20 members). Individual women should join or form an SHG first.",
+    description_en: "Supports women's SHGs with interest-free bank credit, training and market linkages so rural women can start or grow livelihood activities.",
+    description_or: "ମହିଳା ସ୍ୱୟଂ ସହାୟକ ଗୋଷ୍ଠୀକୁ ସୁଧମୁକ୍ତ ବ୍ୟାଙ୍କ ଋଣ, ତାଲିମ ଓ ବଜାର ସଂଯୋଗ ଯୋଗାଇ ଜୀବିକା ବଢ଼ାଇବାର ଯୋଜନା।",
+    benefits_en: [
+      "Interest-free bank loans up to ₹5 Lakh for SHGs",
+      "Training and skill-building for livelihood activities",
+      "Marketing and market-linkage support for SHG products",
+      "Group savings habit and regular bank linkage"
+    ],
+    benefits_or: [
+      "ଗୋଷ୍ଠୀ ପାଇଁ ₹୫ ଲକ୍ଷ ପର୍ଯ୍ୟନ୍ତ ସୁଧମୁକ୍ତ ବ୍ୟାଙ୍କ ଋଣ",
+      "ଜୀବିକା ପାଇଁ ତାଲିମ ଓ ଦକ୍ଷତା ବିକାଶ",
+      "ଗୋଷ୍ଠୀର ଉତ୍ପାଦ ବିକ୍ରି ପାଇଁ ବଜାର ସଂଯୋଗ ସହାୟତା",
+      "ଗୋଷ୍ଠୀ ସଞ୍ଚୟ ଓ ନିୟମିତ ବ୍ୟାଙ୍କ ସଂଯୋଗ"
+    ],
+    eligibility_criteria: {
+      min_age: 18,
+      max_age: 60,
+      max_income: null,
+      allowed_occupations: ["Farmer", "Agricultural Labourer", "Small Artisan", "Self Employed", "Other"],
+      requires_ration_card: false
+    },
+    documents_en: ["Aadhaar Card of members", "SHG Bank Passbook", "SHG registration / resolution copy"],
+    documents_or: ["ସଦସ୍ୟାଙ୍କ ଆଧାର କାର୍ଡ", "ଗୋଷ୍ଠୀର ବ୍ୟାଙ୍କ ପାସବୁକ୍", "ଗୋଷ୍ଠୀ ପଞ୍ଜୀକରଣ / ପ୍ରସ୍ତାବ ନକଲ"],
+    official_link: "https://missionshakti.odisha.gov.in",
+    helpline: "1551",
+    audioText_or: "ମିଶନ ଶକ୍ତି: ମହିଳା ସ୍ୱୟଂ ସହାୟକ ଗୋଷ୍ଠୀକୁ ପାଞ୍ଚ ଲକ୍ଷ ଟଙ୍କା ପର୍ଯ୍ୟନ୍ତ ସୁଧମୁକ୍ତ ବ୍ୟାଙ୍କ ଋଣ, ତାଲିମ ଓ ବଜାର ସହାୟତା ମିଳିଥାଏ।",
+    audioText_en: "Mission Shakti: Women's self help groups get interest-free bank loans up to 5 lakh rupees, along with training and market support."
+  },
+  {
+    id: "pmfby",
+    name_en: "PM Fasal Bima Yojana (PMFBY)",
+    name_or: "ପ୍ରଧାନମନ୍ତ୍ରୀ ଫସଲ ବୀମା ଯୋଜନା (PMFBY)",
+    fullName_en: "Pradhan Mantri Fasal Bima Yojana",
+    fullName_or: "ପ୍ରଧାନମନ୍ତ୍ରୀ ଫସଲ ବୀମା ଯୋଜନା",
+    department_en: "Ministry of Agriculture & Farmers Welfare, Govt. of India",
+    department_or: "କୃଷି ମନ୍ତ୍ରଣାଳୟ, ଭାରତ ସରକାର",
+    badge: "ଭାରତ ସରକାର / Govt. of India",
+    badgeColor: "bg-amber-100 text-amber-900 border-amber-300",
+    icon: "ShieldCheck",
+    targetAudience_en: "Farmers growing notified crops, including sharecroppers and tenant farmers",
+    targetAudience_or: "ବିଜ୍ଞାପିତ ଫସଲ ଚାଷ କରୁଥିବା ଚାଷୀ, ଭାଗଚାଷୀ ଓ ଲିଜ୍ ଚାଷୀ",
+    description_en: "Low-premium crop insurance that pays compensation when crops are lost to floods, cyclones, drought, pests or disease.",
+    description_or: "ବନ୍ୟା, ବାତ୍ୟା, ମରୁଡ଼ି, କୀଟ ଓ ରୋଗ ଯୋଗୁଁ ଫସଲ ନଷ୍ଟ ହେଲେ କମ୍ ପ୍ରିମିୟମ୍‌ରେ କ୍ଷତିପୂରଣ ମିଳୁଥିବା ଫସଲ ବୀମା ଯୋଜନା।",
+    benefits_en: [
+      "Farmer pays only 2% premium for kharif, 1.5% for rabi and 5% for commercial/horticultural crops",
+      "Insurance cover for loss from floods, cyclones, drought, pests and diseases",
+      "Local calamities (hailstorm, landslide, inundation) and post-harvest losses are also covered",
+      "The remaining premium is paid by the government"
+    ],
+    benefits_or: [
+      "ଖରିଫ ପାଇଁ ମାତ୍ର ୨%, ରବି ପାଇଁ ୧.୫% ଏବଂ ବାଣିଜ୍ୟିକ/ଉଦ୍ୟାନ ଫସଲ ପାଇଁ ୫% ପ୍ରିମିୟମ୍",
+      "ବନ୍ୟା, ବାତ୍ୟା, ମରୁଡ଼ି, କୀଟ ଓ ରୋଗ ଯୋଗୁଁ ଫସଲ କ୍ଷତିରେ ବୀମା କ୍ଷତିପୂରଣ",
+      "ଶିଳାବୃଷ୍ଟି, ଭୂସ୍ଖଳନ, ଜଳମଗ୍ନ ଭଳି ସ୍ଥାନୀୟ ବିପର୍ଯ୍ୟୟ ଓ ଅମଳ ପରବର୍ତ୍ତୀ କ୍ଷତି ମଧ୍ୟ କଭର",
+      "ବାକି ପ୍ରିମିୟମ୍ ସରକାର ବହନ କରନ୍ତି"
+    ],
+    eligibility_criteria: {
+      min_age: 18,
+      max_age: 100,
+      max_income: null,
+      allowed_occupations: ["Farmer"],
+      requires_ration_card: false
+    },
+    documents_en: ["Aadhaar Card", "Bank Passbook", "Land Record / RoR or lease/sharecropping proof", "Sowing declaration"],
+    documents_or: ["ଆଧାର କାର୍ଡ", "ବ୍ୟାଙ୍କ ପାସବୁକ୍", "ଜମି ପଟ୍ଟା / RoR କିମ୍ବା ଲିଜ୍ ପ୍ରମାଣ", "ଚାଷ ଘୋଷଣାପତ୍ର"],
+    official_link: "https://pmfby.gov.in",
+    helpline: "14447",
+    audioText_or: "ପ୍ରଧାନମନ୍ତ୍ରୀ ଫସଲ ବୀମା ଯୋଜନା: ଖରିଫ ଫସଲ ପାଇଁ ମାତ୍ର ଦୁଇ ପ୍ରତିଶତ ପ୍ରିମିୟମ୍‌ରେ ବନ୍ୟା, ବାତ୍ୟା, ମରୁଡ଼ି ଓ ରୋଗ ଯୋଗୁଁ ଫସଲ କ୍ଷତିର କ୍ଷତିପୂରଣ ମିଳିଥାଏ।",
+    audioText_en: "PM Fasal Bima Yojana: Farmers pay only 2 percent premium for kharif crops and get compensation for crop loss due to floods, cyclones, drought and disease."
+  },
+  {
+    id: "pmay-g",
+    name_en: "PM Awas Yojana - Gramin (PMAY-G)",
+    name_or: "ପ୍ରଧାନମନ୍ତ୍ରୀ ଆବାସ ଯୋଜନା - ଗ୍ରାମୀଣ (PMAY-G)",
+    fullName_en: "Pradhan Mantri Awaas Yojana - Gramin",
+    fullName_or: "ପ୍ରଧାନମନ୍ତ୍ରୀ ଆବାସ ଯୋଜନା - ଗ୍ରାମୀଣ",
+    department_en: "Ministry of Rural Development (GoI) with Panchayati Raj & Drinking Water Dept, Odisha",
+    department_or: "ଗ୍ରାମ୍ୟ ଉନ୍ନୟନ ମନ୍ତ୍ରଣାଳୟ (ଭାରତ ସରକାର) ଓ ପଞ୍ଚାୟତିରାଜ ବିଭାଗ, ଓଡ଼ିଶା",
+    badge: "ଭାରତ ସରକାର / Govt. of India",
+    badgeColor: "bg-orange-100 text-orange-900 border-orange-300",
+    icon: "Home",
+    targetAudience_en: "Rural families without a pucca house, selected from the Awaas+ / SECC permanent wait list",
+    targetAudience_or: "ପକ୍କା ଘର ନଥିବା ଗ୍ରାମୀଣ ପରିବାର (ଆବାସ ପ୍ଲସ୍ / SECC ତାଲିକାରୁ ଚୟନ)",
+    eligibility_note_en: "Selection is based on the government's housing wait list (houseless or living in kutcha/dilapidated houses), not just income. The family must not already own a pucca house.",
+    description_en: "Financial help to build a pucca house with a cooking space for rural families that have no proper house.",
+    description_or: "ପକ୍କା ଘର ନଥିବା ଗ୍ରାମୀଣ ପରିବାରଙ୍କୁ ରୋଷେଇ ସ୍ଥାନ ସହିତ ପକ୍କା ଘର ନିର୍ମାଣ ପାଇଁ ଆର୍ଥିକ ସହାୟତା।",
+    benefits_en: [
+      "₹1.20 Lakh assistance in plain areas and ₹1.30 Lakh in hilly/difficult areas",
+      "Up to 90/95 days of MGNREGA wages for the construction work",
+      "₹12,000 support for a toilet under Swachh Bharat Mission (Gramin)",
+      "Pucca house of at least 25 sq m with a hygienic cooking space"
+    ],
+    benefits_or: [
+      "ସମତଳ ଅଞ୍ଚଳରେ ₹୧.୨୦ ଲକ୍ଷ ଓ ପାହାଡ଼ିଆ/ଦୁର୍ଗମ ଅଞ୍ଚଳରେ ₹୧.୩୦ ଲକ୍ଷ ସହାୟତା",
+      "ଘର ତିଆରି ପାଇଁ ୯୦/୯୫ ଦିନ ପର୍ଯ୍ୟନ୍ତ MGNREGA ମଜୁରୀ",
+      "ସ୍ୱଚ୍ଛ ଭାରତ ମିଶନ (ଗ୍ରାମୀଣ) ଅଧୀନରେ ଶୌଚାଳୟ ପାଇଁ ₹୧୨,୦୦୦",
+      "ଅନ୍ତତଃ ୨୫ ବର୍ଗ ମିଟର ପକ୍କା ଘର ଓ ସ୍ୱଚ୍ଛ ରୋଷେଇ ସ୍ଥାନ"
+    ],
+    eligibility_criteria: {
+      min_age: 18,
+      max_age: 100,
+      max_income: null,
+      allowed_occupations: ["Farmer", "Agricultural Labourer", "Small Artisan", "Self Employed", "Other"],
+      requires_ration_card: false
+    },
+    documents_en: ["Aadhaar Card", "Bank Passbook (Aadhaar linked)", "Job Card (MGNREGA)", "Awaas+ / SECC wait-list entry"],
+    documents_or: ["ଆଧାର କାର୍ଡ", "ବ୍ୟାଙ୍କ ପାସବୁକ୍ (ଆଧାର ସଂଲଗ୍ନ)", "ଜବ୍ କାର୍ଡ (MGNREGA)", "ଆବାସ ପ୍ଲସ୍ / SECC ତାଲିକାରେ ନାମ"],
+    official_link: "https://pmayg.nic.in",
+    helpline: "1800-11-6446",
+    audioText_or: "ପ୍ରଧାନମନ୍ତ୍ରୀ ଆବାସ ଯୋଜନା ଗ୍ରାମୀଣ: ପକ୍କା ଘର ନଥିବା ପରିବାରକୁ ସମତଳରେ ଏକ ଲକ୍ଷ କୋଡ଼ିଏ ହଜାର ଏବଂ ପାହାଡ଼ିଆ ଅଞ୍ଚଳରେ ଏକ ଲକ୍ଷ ତିରିଶ ହଜାର ଟଙ୍କା ଘର ତିଆରି ପାଇଁ ମିଳିଥାଏ।",
+    audioText_en: "PM Awas Yojana Gramin: Rural families without a pucca house get 1.2 lakh rupees in plain areas and 1.3 lakh rupees in hilly areas to build one."
+  },
+  {
+    id: "mbpy",
+    name_en: "Madhu Babu Pension Yojana (MBPY)",
+    name_or: "ମଧୁବାବୁ ପେନସନ ଯୋଜନା (MBPY)",
+    fullName_en: "Madhu Babu Pension Yojana - Social Security Pension",
+    fullName_or: "ମଧୁବାବୁ ପେନସନ ଯୋଜନା - ସାମାଜିକ ସୁରକ୍ଷା ପେନସନ",
+    department_en: "Social Security & Empowerment of Persons with Disabilities (SSEPD) Dept, Govt. of Odisha",
+    department_or: "ସାମାଜିକ ସୁରକ୍ଷା ଓ ଭିନ୍ନକ୍ଷମ ସଶକ୍ତିକରଣ ବିଭାଗ, ଓଡ଼ିଶା ସରକାର",
+    badge: "ଓଡ଼ିଶା ସରକାର / Govt. of Odisha",
+    badgeColor: "bg-teal-100 text-teal-900 border-teal-300",
+    icon: "HeartPulse",
+    targetAudience_en: "Senior citizens (60+), widows and persons with disabilities in Odisha",
+    targetAudience_or: "ଓଡ଼ିଶାର ବରିଷ୍ଠ ନାଗରିକ (୬୦+), ବିଧବା ଓ ଭିନ୍ନକ୍ଷମ ବ୍ୟକ୍ତି",
+    eligibility_note_en: "Permanent resident of Odisha who meets the age/category and household-income conditions. A person already receiving another government pension is generally not eligible.",
+    description_en: "Monthly social security pension paid by DBT to elderly, widowed and disabled residents who lack a stable income.",
+    description_or: "ସ୍ଥିର ଆୟ ନଥିବା ବୃଦ୍ଧ, ବିଧବା ଓ ଭିନ୍ନକ୍ଷମ ବ୍ୟକ୍ତିଙ୍କୁ ପ୍ରତି ମାସ DBT ଜରିଆରେ ଦିଆଯାଉଥିବା ସାମାଜିକ ସୁରକ୍ଷା ପେନସନ।",
+    benefits_en: [
+      "Monthly pension directly into the bank account through DBT",
+      "₹3,500 per month for people aged 80+ and persons with 80%+ disability",
+      "A lower monthly slab for ages 60-79 (rates are revised from time to time - confirm the current amount on the SSEPD portal)",
+      "Covers old-age, widow and disability categories under one scheme"
+    ],
+    benefits_or: [
+      "DBT ଜରିଆରେ ପ୍ରତି ମାସ ସିଧାସଳଖ ବ୍ୟାଙ୍କ ଖାତାକୁ ପେନସନ",
+      "୮୦ ବର୍ଷ ଓ ତଦୂର୍ଦ୍ଧ୍ୱ ଏବଂ ୮୦%ରୁ ଅଧିକ ଭିନ୍ନକ୍ଷମଙ୍କୁ ମାସିକ ₹୩,୫୦୦",
+      "୬୦-୭୯ ବର୍ଷ ପାଇଁ ଅପେକ୍ଷାକୃତ କମ୍ ମାସିକ ହାର (ହାର ବଦଳିପାରେ - SSEPD ପୋର୍ଟାଲରେ ବର୍ତ୍ତମାନର ହାର ଯାଞ୍ଚ କରନ୍ତୁ)",
+      "ବୃଦ୍ଧ, ବିଧବା ଓ ଭିନ୍ନକ୍ଷମ ବର୍ଗ ଏକ ଯୋଜନାରେ"
+    ],
+    eligibility_criteria: {
+      min_age: 60,
+      max_age: 110,
+      max_income: null,
+      allowed_occupations: ["Farmer", "Agricultural Labourer", "Small Artisan", "Self Employed", "Other"],
+      requires_ration_card: false
+    },
+    documents_en: ["Aadhaar Card", "Age proof", "Bank Passbook", "Recent passport-size photographs", "Income / BPL proof"],
+    documents_or: ["ଆଧାର କାର୍ଡ", "ବୟସ ପ୍ରମାଣପତ୍ର", "ବ୍ୟାଙ୍କ ପାସବୁକ୍", "ସଦ୍ୟ ପାସପୋର୍ଟ ଆକାରର ଫଟୋ", "ଆୟ / BPL ପ୍ରମାଣପତ୍ର"],
+    official_link: "https://ssepd.odisha.gov.in",
+    helpline: "1551",
+    audioText_or: "ମଧୁବାବୁ ପେନସନ ଯୋଜନା: ୬୦ ବର୍ଷ ଓ ତଦୂର୍ଦ୍ଧ୍ୱ ବୃଦ୍ଧ, ବିଧବା ଓ ଭିନ୍ନକ୍ଷମ ବ୍ୟକ୍ତିଙ୍କୁ ପ୍ରତି ମାସ ସିଧାସଳଖ ବ୍ୟାଙ୍କ ଖାତାରେ ପେନସନ ମିଳିଥାଏ।",
+    audioText_en: "Madhu Babu Pension Yojana: Elderly people aged 60 and above, widows and persons with disabilities receive a monthly pension directly in their bank account."
   }
 ];
